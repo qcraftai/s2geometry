@@ -16,15 +16,17 @@
 #ifndef S2_BASE_INTEGRAL_TYPES_H_
 #define S2_BASE_INTEGRAL_TYPES_H_
 
-using int8 = signed char;
-using int16 = short;
-using int32 = int;
-using int64 = long long;
+#include <cstdint>
 
-using uint8 = unsigned char;
-using uint16 = unsigned short;
-using uint32 = unsigned int;
-using uint64 = unsigned long long;
+using int8 = int8_t;
+using int16 = int16_t;
+using int32 = int32_t;
+using int64 = int64_t;
+
+using uint8 = uint8_t;
+using uint16 = uint16_t;
+using uint32 = uint32_t;
+using uint64 = uint64_t;
 
 using uword_t = unsigned long;
 
