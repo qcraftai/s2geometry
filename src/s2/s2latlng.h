@@ -24,6 +24,7 @@
 #include <string>
 
 #include "s2/base/integral_types.h"
+#include "s2/base/port.h"
 #include "s2/_fp_contract_off.h"
 #include "s2/r2.h"
 #include "s2/s1angle.h"

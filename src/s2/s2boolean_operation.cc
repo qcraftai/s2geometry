@@ -70,7 +70,7 @@
 #include <utility>
 
 #include "s2/util/gtl/btree_map.h"
-#include "s2/third_party/absl/memory/memory.h"
+#include "absl/memory/memory.h"
 #include "s2/s2builder.h"
 #include "s2/s2builder_layer.h"
 #include "s2/s2builderutil_snap_functions.h"

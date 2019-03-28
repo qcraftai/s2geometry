@@ -66,13 +66,13 @@
 #include <utility>
 
 #include "s2/base/integral_types.h"
-#include "s2/third_party/absl/base/macros.h"
-#include "s2/third_party/absl/container/internal/compressed_tuple.h"
-#include "s2/third_party/absl/container/internal/container_memory.h"
-#include "s2/third_party/absl/memory/memory.h"
-#include "s2/third_party/absl/meta/type_traits.h"
-#include "s2/third_party/absl/strings/string_view.h"
-#include "s2/third_party/absl/utility/utility.h"
+#include "absl/base/macros.h"
+#include "absl/container/internal/compressed_tuple.h"
+#include "absl/container/internal/container_memory.h"
+#include "absl/memory/memory.h"
+#include "absl/meta/type_traits.h"
+#include "absl/strings/string_view.h"
+#include "absl/utility/utility.h"
 #include "s2/util/gtl/layout.h"
 
 namespace gtl {

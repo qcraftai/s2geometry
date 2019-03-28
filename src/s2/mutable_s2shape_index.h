@@ -35,9 +35,9 @@
 #include "s2/s2pointutil.h"
 #include "s2/s2shape.h"
 #include "s2/s2shape_index.h"
-#include "s2/third_party/absl/base/macros.h"
-#include "s2/third_party/absl/base/thread_annotations.h"
-#include "s2/third_party/absl/memory/memory.h"
+#include "absl/base/macros.h"
+#include "absl/base/thread_annotations.h"
+#include "absl/memory/memory.h"
 #include "s2/util/gtl/btree_map.h"
 
 // MutableS2ShapeIndex is a class for in-memory indexing of polygonal geometry.

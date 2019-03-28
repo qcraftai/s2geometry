@@ -32,7 +32,7 @@
 #include "s2/r2rect.h"
 #include "s2/s1angle.h"
 #include "s2/s2coords.h"
-#include "s2/third_party/absl/strings/string_view.h"
+#include "absl/strings/string_view.h"
 #include "s2/util/bits/bits.h"
 #include "s2/util/coding/coder.h"
 
