@@ -33,9 +33,9 @@
 #include "s2/third_party/absl/types/span.h"
 #include "s2/util/coding/coder.h"
 
-using s2_absl::FixedArray;
-using s2_absl::MakeSpan;
-using s2_absl::Span;
+using absl::FixedArray;
+using absl::MakeSpan;
+using absl::Span;
 using std::vector;
 
 DEFINE_int32(s2point_compression_bm_level, 30,

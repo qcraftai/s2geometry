@@ -128,11 +128,11 @@ class Varint {
   //            encoding this value as a Varint64 value.  This means
   //            that if both a and b are small, both values can be
   //            encoded in a single byte.
-  S2_ABSLDEPRECATED("Use TwoValuesVarint::Encode32.")
+  ABSL_DEPRECATED("Use TwoValuesVarint::Encode32.")
   static void EncodeTwo32Values(string* s, uint32 a, uint32 b);
-  S2_ABSLDEPRECATED("Use TwoValuesVarint::Decode32.")
+  ABSL_DEPRECATED("Use TwoValuesVarint::Decode32.")
   static const char* DecodeTwo32Values(const char* ptr, uint32* a, uint32* b);
-  S2_ABSLDEPRECATED("Use TwoValuesVarint::Decode32WithLimit.")
+  ABSL_DEPRECATED("Use TwoValuesVarint::Decode32WithLimit.")
   static const char* DecodeTwo32ValuesWithLimit(const char* ptr,
                                                 const char* limit, uint32* a,
                                                 uint32* b);

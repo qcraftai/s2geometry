@@ -62,51 +62,51 @@
 
 #if defined(SWIG)
 
-#define S2_ABSLPRINTF_ATTRIBUTE(string_index, first_to_check)
-#define S2_ABSLSCANF_ATTRIBUTE(string_index, first_to_check)
-#define S2_ABSLATTRIBUTE_ALWAYS_INLINE
-#define S2_ABSLATTRIBUTE_NOINLINE
-#define S2_ABSLATTRIBUTE_NO_TAIL_CALL
-#define S2_ABSLHAVE_ATTRIBUTE_NO_TAIL_CALL 0
-#define S2_ABSLATTRIBUTE_WEAK
-#define S2_ABSLHAVE_ATTRIBUTE_WEAK 0
-#define S2_ABSLATTRIBUTE_NONNULL(...)
-#define S2_ABSLATTRIBUTE_NORETURN
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_ADDRESS
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_MEMORY
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_THREAD
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_UNDEFINED
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_CFI
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_SAFESTACK
-#define S2_ABSLATTRIBUTE_RETURNS_NONNULL
+#define ABSL_PRINTF_ATTRIBUTE(string_index, first_to_check)
+#define ABSL_SCANF_ATTRIBUTE(string_index, first_to_check)
+#define ABSL_ATTRIBUTE_ALWAYS_INLINE
+#define ABSL_ATTRIBUTE_NOINLINE
+#define ABSL_ATTRIBUTE_NO_TAIL_CALL
+#define ABSL_HAVE_ATTRIBUTE_NO_TAIL_CALL 0
+#define ABSL_ATTRIBUTE_WEAK
+#define ABSL_HAVE_ATTRIBUTE_WEAK 0
+#define ABSL_ATTRIBUTE_NONNULL(...)
+#define ABSL_ATTRIBUTE_NORETURN
+#define ABSL_ATTRIBUTE_NO_SANITIZE_ADDRESS
+#define ABSL_ATTRIBUTE_NO_SANITIZE_MEMORY
+#define ABSL_ATTRIBUTE_NO_SANITIZE_THREAD
+#define ABSL_ATTRIBUTE_NO_SANITIZE_UNDEFINED
+#define ABSL_ATTRIBUTE_NO_SANITIZE_CFI
+#define ABSL_ATTRIBUTE_NO_SANITIZE_SAFESTACK
+#define ABSL_ATTRIBUTE_RETURNS_NONNULL
 #if SWIG_VERSION >= 0x020000
-#define S2_ABSLHAVE_ATTRIBUTE_SECTION 0
+#define ABSL_HAVE_ATTRIBUTE_SECTION 0
 #endif
-#define S2_ABSLATTRIBUTE_SECTION(name)
-#define S2_ABSLATTRIBUTE_SECTION_VARIABLE(name)
-#define S2_ABSLINIT_ATTRIBUTE_SECTION_VARS(name)
-#define S2_ABSLDEFINE_ATTRIBUTE_SECTION_VARS(name)
-#define S2_ABSLDECLARE_ATTRIBUTE_SECTION_VARS(name)
-#define S2_ABSLATTRIBUTE_SECTION_START(name) (reinterpret_cast<void *>(0))
-#define S2_ABSLATTRIBUTE_SECTION_STOP(name) (reinterpret_cast<void *>(0))
-#define S2_ABSLATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
-#define S2_ABSLREQUIRE_STACK_ALIGN_TRAMPOLINE (0)
-#define S2_ABSLMUST_USE_RESULT
-#define S2_ABSLATTRIBUTE_HOT
-#define S2_ABSLATTRIBUTE_COLD
-#define S2_ABSLATTRIBUTE_REINITIALIZES
-#define S2_ABSLATTRIBUTE_UNUSED
-#define S2_ABSLATTRIBUTE_INITIAL_EXEC
-#define S2_ABSLATTRIBUTE_PACKED
-#define S2_ABSLATTRIBUTE_FUNC_ALIGN(bytes)
+#define ABSL_ATTRIBUTE_SECTION(name)
+#define ABSL_ATTRIBUTE_SECTION_VARIABLE(name)
+#define ABSL_INIT_ATTRIBUTE_SECTION_VARS(name)
+#define ABSL_DEFINE_ATTRIBUTE_SECTION_VARS(name)
+#define ABSL_DECLARE_ATTRIBUTE_SECTION_VARS(name)
+#define ABSL_ATTRIBUTE_SECTION_START(name) (reinterpret_cast<void *>(0))
+#define ABSL_ATTRIBUTE_SECTION_STOP(name) (reinterpret_cast<void *>(0))
+#define ABSL_ATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
+#define ABSL_REQUIRE_STACK_ALIGN_TRAMPOLINE (0)
+#define ABSL_MUST_USE_RESULT
+#define ABSL_ATTRIBUTE_HOT
+#define ABSL_ATTRIBUTE_COLD
+#define ABSL_ATTRIBUTE_REINITIALIZES
+#define ABSL_ATTRIBUTE_UNUSED
+#define ABSL_ATTRIBUTE_INITIAL_EXEC
+#define ABSL_ATTRIBUTE_PACKED
+#define ABSL_ATTRIBUTE_FUNC_ALIGN(bytes)
 
-// To be deleted macros. All macros are going te be renamed with S2_ABSL prefix.
+// To be deleted macros. All macros are going te be renamed with ABSL_ prefix.
 // TODO(user): delete macros
 #define MUST_USE_RESULT
 
 #else  // SWIG
 
-// S2_ABSLHAVE_ATTRIBUTE
+// ABSL_HAVE_ATTRIBUTE
 //
 // A function-like feature checking macro that is a wrapper around
 // `__has_attribute`, which is defined by GCC 5+ and Clang and evaluates to a
@@ -117,12 +117,12 @@
 // GCC: https://gcc.gnu.org/gcc-5/changes.html
 // Clang: https://clang.llvm.org/docs/LanguageExtensions.html
 #ifdef __has_attribute
-#define S2_ABSLHAVE_ATTRIBUTE(x) __has_attribute(x)
+#define ABSL_HAVE_ATTRIBUTE(x) __has_attribute(x)
 #else
-#define S2_ABSLHAVE_ATTRIBUTE(x) 0
+#define ABSL_HAVE_ATTRIBUTE(x) 0
 #endif
 
-// S2_ABSLHAVE_CPP_ATTRIBUTE
+// ABSL_HAVE_CPP_ATTRIBUTE
 //
 // A function-like feature checking macro that accepts C++11 style attributes.
 // It's a wrapper around `__has_cpp_attribute`, defined by ISO C++ SD-6
@@ -131,9 +131,9 @@
 #if defined(__cplusplus) && defined(__has_cpp_attribute)
 // NOTE: requiring __cplusplus above should not be necessary, but
 // works around https://bugs.llvm.org/show_bug.cgi?id=23435.
-#define S2_ABSLHAVE_CPP_ATTRIBUTE(x) __has_cpp_attribute(x)
+#define ABSL_HAVE_CPP_ATTRIBUTE(x) __has_cpp_attribute(x)
 #else
-#define S2_ABSLHAVE_CPP_ATTRIBUTE(x) 0
+#define ABSL_HAVE_CPP_ATTRIBUTE(x) 0
 #endif
 
 // -----------------------------------------------------------------------------
@@ -143,8 +143,8 @@
 // GCC: https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html
 // Clang: https://clang.llvm.org/docs/AttributeReference.html
 
-// S2_ABSLPRINTF_ATTRIBUTE
-// S2_ABSLSCANF_ATTRIBUTE
+// ABSL_PRINTF_ATTRIBUTE
+// ABSL_SCANF_ATTRIBUTE
 //
 // Tells the compiler to perform `printf` format string checking if the
 // compiler supports it; see the 'format' attribute in
@@ -153,69 +153,69 @@
 // Note: As the GCC manual states, "[s]ince non-static C++ methods
 // have an implicit 'this' argument, the arguments of such methods
 // should be counted from two, not one."
-#if S2_ABSLHAVE_ATTRIBUTE(format) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLPRINTF_ATTRIBUTE(string_index, first_to_check) \
+#if ABSL_HAVE_ATTRIBUTE(format) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_PRINTF_ATTRIBUTE(string_index, first_to_check) \
   __attribute__((__format__(__printf__, string_index, first_to_check)))
-#define S2_ABSLSCANF_ATTRIBUTE(string_index, first_to_check) \
+#define ABSL_SCANF_ATTRIBUTE(string_index, first_to_check) \
   __attribute__((__format__(__scanf__, string_index, first_to_check)))
 #else
-#define S2_ABSLPRINTF_ATTRIBUTE(string_index, first_to_check)
-#define S2_ABSLSCANF_ATTRIBUTE(string_index, first_to_check)
+#define ABSL_PRINTF_ATTRIBUTE(string_index, first_to_check)
+#define ABSL_SCANF_ATTRIBUTE(string_index, first_to_check)
 #endif
 
-// S2_ABSLATTRIBUTE_ALWAYS_INLINE
-// S2_ABSLATTRIBUTE_NOINLINE
+// ABSL_ATTRIBUTE_ALWAYS_INLINE
+// ABSL_ATTRIBUTE_NOINLINE
 //
 // Forces functions to either inline or not inline. Introduced in gcc 3.1.
-#if S2_ABSLHAVE_ATTRIBUTE(always_inline) || \
+#if ABSL_HAVE_ATTRIBUTE(always_inline) || \
     (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_ALWAYS_INLINE __attribute__((always_inline))
-#define S2_ABSLHAVE_ATTRIBUTE_ALWAYS_INLINE 1
+#define ABSL_ATTRIBUTE_ALWAYS_INLINE __attribute__((always_inline))
+#define ABSL_HAVE_ATTRIBUTE_ALWAYS_INLINE 1
 #else
-#define S2_ABSLATTRIBUTE_ALWAYS_INLINE
+#define ABSL_ATTRIBUTE_ALWAYS_INLINE
 #endif
 
-#if S2_ABSLHAVE_ATTRIBUTE(noinline) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_NOINLINE __attribute__((noinline))
-#define S2_ABSLHAVE_ATTRIBUTE_NOINLINE 1
+#if ABSL_HAVE_ATTRIBUTE(noinline) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_ATTRIBUTE_NOINLINE __attribute__((noinline))
+#define ABSL_HAVE_ATTRIBUTE_NOINLINE 1
 #else
-#define S2_ABSLATTRIBUTE_NOINLINE
+#define ABSL_ATTRIBUTE_NOINLINE
 #endif
 
-// S2_ABSLATTRIBUTE_NO_TAIL_CALL
+// ABSL_ATTRIBUTE_NO_TAIL_CALL
 //
 // Prevents the compiler from optimizing away stack frames for functions which
 // end in a call to another function.
-#if S2_ABSLHAVE_ATTRIBUTE(disable_tail_calls)
-#define S2_ABSLHAVE_ATTRIBUTE_NO_TAIL_CALL 1
-#define S2_ABSLATTRIBUTE_NO_TAIL_CALL __attribute__((disable_tail_calls))
+#if ABSL_HAVE_ATTRIBUTE(disable_tail_calls)
+#define ABSL_HAVE_ATTRIBUTE_NO_TAIL_CALL 1
+#define ABSL_ATTRIBUTE_NO_TAIL_CALL __attribute__((disable_tail_calls))
 #elif defined(__GNUC__) && !defined(__clang__)
-#define S2_ABSLHAVE_ATTRIBUTE_NO_TAIL_CALL 1
-#define S2_ABSLATTRIBUTE_NO_TAIL_CALL \
+#define ABSL_HAVE_ATTRIBUTE_NO_TAIL_CALL 1
+#define ABSL_ATTRIBUTE_NO_TAIL_CALL \
   __attribute__((optimize("no-optimize-sibling-calls")))
 #else
-#define S2_ABSLATTRIBUTE_NO_TAIL_CALL
-#define S2_ABSLHAVE_ATTRIBUTE_NO_TAIL_CALL 0
+#define ABSL_ATTRIBUTE_NO_TAIL_CALL
+#define ABSL_HAVE_ATTRIBUTE_NO_TAIL_CALL 0
 #endif
 
-// S2_ABSLATTRIBUTE_WEAK
+// ABSL_ATTRIBUTE_WEAK
 //
 // Tags a function as weak for the purposes of compilation and linking.
 // Weak attributes currently do not work properly in LLVM's Windows backend,
 // so disable them there. See https://bugs.llvm.org/show_bug.cgi?id=37598
 // for futher information.
-#if (S2_ABSLHAVE_ATTRIBUTE(weak) || \
+#if (ABSL_HAVE_ATTRIBUTE(weak) || \
      (defined(__GNUC__) && !defined(__clang__))) && \
     !(defined(__llvm__) && defined(_WIN32))
-#undef S2_ABSLATTRIBUTE_WEAK
-#define S2_ABSLATTRIBUTE_WEAK __attribute__((weak))
-#define S2_ABSLHAVE_ATTRIBUTE_WEAK 1
+#undef ABSL_ATTRIBUTE_WEAK
+#define ABSL_ATTRIBUTE_WEAK __attribute__((weak))
+#define ABSL_HAVE_ATTRIBUTE_WEAK 1
 #else
-#define S2_ABSLATTRIBUTE_WEAK
-#define S2_ABSLHAVE_ATTRIBUTE_WEAK 0
+#define ABSL_ATTRIBUTE_WEAK
+#define ABSL_HAVE_ATTRIBUTE_WEAK 0
 #endif
 
-// S2_ABSLATTRIBUTE_NONNULL
+// ABSL_ATTRIBUTE_NONNULL
 //
 // Tells the compiler either (a) that a particular function parameter
 // should be a non-null pointer, or (b) that all pointer arguments should
@@ -235,42 +235,42 @@
 // Example:
 //
 //   /* arg_a cannot be null, but arg_b can */
-//   void Function(void* arg_a, void* arg_b) S2_ABSLATTRIBUTE_NONNULL(1);
+//   void Function(void* arg_a, void* arg_b) ABSL_ATTRIBUTE_NONNULL(1);
 //
 //   class C {
 //     /* arg_a cannot be null, but arg_b can */
-//     void Method(void* arg_a, void* arg_b) S2_ABSLATTRIBUTE_NONNULL(2);
+//     void Method(void* arg_a, void* arg_b) ABSL_ATTRIBUTE_NONNULL(2);
 //
 //     /* arg_a cannot be null, but arg_b can */
 //     static void StaticMethod(void* arg_a, void* arg_b)
-//     S2_ABSLATTRIBUTE_NONNULL(1);
+//     ABSL_ATTRIBUTE_NONNULL(1);
 //   };
 //
 // If no arguments are provided, then all pointer arguments should be non-null.
 //
 //  /* No pointer arguments may be null. */
-//  void Function(void* arg_a, void* arg_b, int arg_c) S2_ABSLATTRIBUTE_NONNULL();
+//  void Function(void* arg_a, void* arg_b, int arg_c) ABSL_ATTRIBUTE_NONNULL();
 //
 // NOTE: The GCC nonnull attribute actually accepts a list of arguments, but
-// S2_ABSLATTRIBUTE_NONNULL does not.
-#if S2_ABSLHAVE_ATTRIBUTE(nonnull) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_NONNULL(arg_index) __attribute__((nonnull(arg_index)))
+// ABSL_ATTRIBUTE_NONNULL does not.
+#if ABSL_HAVE_ATTRIBUTE(nonnull) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_ATTRIBUTE_NONNULL(arg_index) __attribute__((nonnull(arg_index)))
 #else
-#define S2_ABSLATTRIBUTE_NONNULL(...)
+#define ABSL_ATTRIBUTE_NONNULL(...)
 #endif
 
-// S2_ABSLATTRIBUTE_NORETURN
+// ABSL_ATTRIBUTE_NORETURN
 //
 // Tells the compiler that a given function never returns.
-#if S2_ABSLHAVE_ATTRIBUTE(noreturn) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_NORETURN __attribute__((noreturn))
+#if ABSL_HAVE_ATTRIBUTE(noreturn) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_ATTRIBUTE_NORETURN __attribute__((noreturn))
 #elif defined(_MSC_VER)
-#define S2_ABSLATTRIBUTE_NORETURN __declspec(noreturn)
+#define ABSL_ATTRIBUTE_NORETURN __declspec(noreturn)
 #else
-#define S2_ABSLATTRIBUTE_NORETURN
+#define ABSL_ATTRIBUTE_NORETURN
 #endif
 
-// S2_ABSLATTRIBUTE_NO_SANITIZE_ADDRESS
+// ABSL_ATTRIBUTE_NO_SANITIZE_ADDRESS
 //
 // Tells the AddressSanitizer (or other memory testing tools) to ignore a given
 // function. Useful for cases when a function reads random locations on stack,
@@ -279,12 +279,12 @@
 // NOTE: GCC supports AddressSanitizer(asan) since 4.8.
 // https://gcc.gnu.org/gcc-4.8/changes.html
 #if defined(__GNUC__) && defined(ADDRESS_SANITIZER)
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_ADDRESS __attribute__((no_sanitize_address))
+#define ABSL_ATTRIBUTE_NO_SANITIZE_ADDRESS __attribute__((no_sanitize_address))
 #else
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_ADDRESS
+#define ABSL_ATTRIBUTE_NO_SANITIZE_ADDRESS
 #endif
 
-// S2_ABSLATTRIBUTE_NO_SANITIZE_MEMORY
+// ABSL_ATTRIBUTE_NO_SANITIZE_MEMORY
 //
 // Tells the  MemorySanitizer to relax the handling of a given function. All
 // "Use of uninitialized value" warnings from such functions will be suppressed,
@@ -293,24 +293,24 @@
 // with initialized-ness rather than addressability issues.
 // NOTE: MemorySanitizer(msan) is supported by Clang but not GCC.
 #if defined(__GNUC__) && defined(MEMORY_SANITIZER)
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_MEMORY __attribute__((no_sanitize_memory))
+#define ABSL_ATTRIBUTE_NO_SANITIZE_MEMORY __attribute__((no_sanitize_memory))
 #else
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_MEMORY
+#define ABSL_ATTRIBUTE_NO_SANITIZE_MEMORY
 #endif
 
-// S2_ABSLATTRIBUTE_NO_SANITIZE_THREAD
+// ABSL_ATTRIBUTE_NO_SANITIZE_THREAD
 //
 // Tells the ThreadSanitizer to not instrument a given function.
 // If you are adding this attribute, please cc dynamic-tools@ on the cl.
 // NOTE: GCC supports ThreadSanitizer(tsan) since 4.8.
 // https://gcc.gnu.org/gcc-4.8/changes.html
 #if defined(__GNUC__) && defined(THREAD_SANITIZER)
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_THREAD __attribute__((no_sanitize_thread))
+#define ABSL_ATTRIBUTE_NO_SANITIZE_THREAD __attribute__((no_sanitize_thread))
 #else
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_THREAD
+#define ABSL_ATTRIBUTE_NO_SANITIZE_THREAD
 #endif
 
-// S2_ABSLATTRIBUTE_NO_SANITIZE_UNDEFINED
+// ABSL_ATTRIBUTE_NO_SANITIZE_UNDEFINED
 //
 // Tells the UndefinedSanitizer to ignore a given function. Useful for cases
 // where certain behavior (eg. division by zero) is being used intentionally.
@@ -318,147 +318,147 @@
 // https://gcc.gnu.org/gcc-4.9/changes.html
 #if defined(__GNUC__) && \
     (defined(UNDEFINED_BEHAVIOR_SANITIZER) || defined(ADDRESS_SANITIZER))
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_UNDEFINED \
+#define ABSL_ATTRIBUTE_NO_SANITIZE_UNDEFINED \
   __attribute__((no_sanitize("undefined")))
 #else
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_UNDEFINED
+#define ABSL_ATTRIBUTE_NO_SANITIZE_UNDEFINED
 #endif
 
-// S2_ABSLATTRIBUTE_NO_SANITIZE_CFI
+// ABSL_ATTRIBUTE_NO_SANITIZE_CFI
 //
 // Tells the ControlFlowIntegrity sanitizer to not instrument a given function.
 // See https://clang.llvm.org/docs/ControlFlowIntegrity.html for details.
 #if defined(__GNUC__) && defined(CONTROL_FLOW_INTEGRITY)
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_CFI __attribute__((no_sanitize("cfi")))
+#define ABSL_ATTRIBUTE_NO_SANITIZE_CFI __attribute__((no_sanitize("cfi")))
 #else
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_CFI
+#define ABSL_ATTRIBUTE_NO_SANITIZE_CFI
 #endif
 
-// S2_ABSLATTRIBUTE_NO_SANITIZE_SAFESTACK
+// ABSL_ATTRIBUTE_NO_SANITIZE_SAFESTACK
 //
 // Tells the SafeStack to not instrument a given function.
 // See https://clang.llvm.org/docs/SafeStack.html for details.
 #if defined(__GNUC__) && defined(SAFESTACK_SANITIZER)
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_SAFESTACK \
+#define ABSL_ATTRIBUTE_NO_SANITIZE_SAFESTACK \
   __attribute__((no_sanitize("safe-stack")))
 #else
-#define S2_ABSLATTRIBUTE_NO_SANITIZE_SAFESTACK
+#define ABSL_ATTRIBUTE_NO_SANITIZE_SAFESTACK
 #endif
 
-// S2_ABSLATTRIBUTE_RETURNS_NONNULL
+// ABSL_ATTRIBUTE_RETURNS_NONNULL
 //
 // Tells the compiler that a particular function never returns a null pointer.
-#if S2_ABSLHAVE_ATTRIBUTE(returns_nonnull) || \
+#if ABSL_HAVE_ATTRIBUTE(returns_nonnull) || \
     (defined(__GNUC__) && \
      (__GNUC__ > 5 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 9)) && \
      !defined(__clang__))
-#define S2_ABSLATTRIBUTE_RETURNS_NONNULL __attribute__((returns_nonnull))
+#define ABSL_ATTRIBUTE_RETURNS_NONNULL __attribute__((returns_nonnull))
 #else
-#define S2_ABSLATTRIBUTE_RETURNS_NONNULL
+#define ABSL_ATTRIBUTE_RETURNS_NONNULL
 #endif
 
-// S2_ABSLHAVE_ATTRIBUTE_SECTION
+// ABSL_HAVE_ATTRIBUTE_SECTION
 //
 // Indicates whether labeled sections are supported. Weak symbol support is
 // a prerequisite. Labeled sections are not supported on Darwin/iOS.
-#ifdef S2_ABSLHAVE_ATTRIBUTE_SECTION
-#error S2_ABSLHAVE_ATTRIBUTE_SECTION cannot be directly set
-#elif (S2_ABSLHAVE_ATTRIBUTE(section) ||                \
+#ifdef ABSL_HAVE_ATTRIBUTE_SECTION
+#error ABSL_HAVE_ATTRIBUTE_SECTION cannot be directly set
+#elif (ABSL_HAVE_ATTRIBUTE(section) ||                \
        (defined(__GNUC__) && !defined(__clang__))) && \
-    !defined(__APPLE__) && S2_ABSLHAVE_ATTRIBUTE_WEAK
-#define S2_ABSLHAVE_ATTRIBUTE_SECTION 1
+    !defined(__APPLE__) && ABSL_HAVE_ATTRIBUTE_WEAK
+#define ABSL_HAVE_ATTRIBUTE_SECTION 1
 
-// S2_ABSLATTRIBUTE_SECTION
+// ABSL_ATTRIBUTE_SECTION
 //
 // Tells the compiler/linker to put a given function into a section and define
 // `__start_ ## name` and `__stop_ ## name` symbols to bracket the section.
 // This functionality is supported by GNU linker.  Any function annotated with
-// `S2_ABSLATTRIBUTE_SECTION` must not be inlined, or it will be placed into
+// `ABSL_ATTRIBUTE_SECTION` must not be inlined, or it will be placed into
 // whatever section its caller is placed into.
 //
-#ifndef S2_ABSLATTRIBUTE_SECTION
-#define S2_ABSLATTRIBUTE_SECTION(name) \
+#ifndef ABSL_ATTRIBUTE_SECTION
+#define ABSL_ATTRIBUTE_SECTION(name) \
   __attribute__((section(#name))) __attribute__((noinline))
 #endif
 
 
-// S2_ABSLATTRIBUTE_SECTION_VARIABLE
+// ABSL_ATTRIBUTE_SECTION_VARIABLE
 //
 // Tells the compiler/linker to put a given variable into a section and define
 // `__start_ ## name` and `__stop_ ## name` symbols to bracket the section.
 // This functionality is supported by GNU linker.
-#ifndef S2_ABSLATTRIBUTE_SECTION_VARIABLE
-#define S2_ABSLATTRIBUTE_SECTION_VARIABLE(name) __attribute__((section(#name)))
+#ifndef ABSL_ATTRIBUTE_SECTION_VARIABLE
+#define ABSL_ATTRIBUTE_SECTION_VARIABLE(name) __attribute__((section(#name)))
 #endif
 
-// S2_ABSLDECLARE_ATTRIBUTE_SECTION_VARS
+// ABSL_DECLARE_ATTRIBUTE_SECTION_VARS
 //
 // A weak section declaration to be used as a global declaration
-// for S2_ABSLATTRIBUTE_SECTION_START|STOP(name) to compile and link
-// even without functions with S2_ABSLATTRIBUTE_SECTION(name).
-// S2_ABSLDEFINE_ATTRIBUTE_SECTION should be in the exactly one file; it's
+// for ABSL_ATTRIBUTE_SECTION_START|STOP(name) to compile and link
+// even without functions with ABSL_ATTRIBUTE_SECTION(name).
+// ABSL_DEFINE_ATTRIBUTE_SECTION should be in the exactly one file; it's
 // a no-op on ELF but not on Mach-O.
 //
-#ifndef S2_ABSLDECLARE_ATTRIBUTE_SECTION_VARS
-#define S2_ABSLDECLARE_ATTRIBUTE_SECTION_VARS(name) \
-  extern char __start_##name[] S2_ABSLATTRIBUTE_WEAK;    \
-  extern char __stop_##name[] S2_ABSLATTRIBUTE_WEAK
+#ifndef ABSL_DECLARE_ATTRIBUTE_SECTION_VARS
+#define ABSL_DECLARE_ATTRIBUTE_SECTION_VARS(name) \
+  extern char __start_##name[] ABSL_ATTRIBUTE_WEAK;    \
+  extern char __stop_##name[] ABSL_ATTRIBUTE_WEAK
 #endif
-#ifndef S2_ABSLDEFINE_ATTRIBUTE_SECTION_VARS
-#define S2_ABSLINIT_ATTRIBUTE_SECTION_VARS(name)
-#define S2_ABSLDEFINE_ATTRIBUTE_SECTION_VARS(name)
+#ifndef ABSL_DEFINE_ATTRIBUTE_SECTION_VARS
+#define ABSL_INIT_ATTRIBUTE_SECTION_VARS(name)
+#define ABSL_DEFINE_ATTRIBUTE_SECTION_VARS(name)
 #endif
 
-// S2_ABSLATTRIBUTE_SECTION_START
+// ABSL_ATTRIBUTE_SECTION_START
 //
 // Returns `void*` pointers to start/end of a section of code with
-// functions having S2_ABSLATTRIBUTE_SECTION(name).
+// functions having ABSL_ATTRIBUTE_SECTION(name).
 // Returns 0 if no such functions exist.
-// One must S2_ABSLDECLARE_ATTRIBUTE_SECTION_VARS(name) for this to compile and
+// One must ABSL_DECLARE_ATTRIBUTE_SECTION_VARS(name) for this to compile and
 // link.
 //
-#define S2_ABSLATTRIBUTE_SECTION_START(name) \
+#define ABSL_ATTRIBUTE_SECTION_START(name) \
   (reinterpret_cast<void *>(__start_##name))
-#define S2_ABSLATTRIBUTE_SECTION_STOP(name) \
+#define ABSL_ATTRIBUTE_SECTION_STOP(name) \
   (reinterpret_cast<void *>(__stop_##name))
 
-#else  // !S2_ABSLHAVE_ATTRIBUTE_SECTION
+#else  // !ABSL_HAVE_ATTRIBUTE_SECTION
 
-#define S2_ABSLHAVE_ATTRIBUTE_SECTION 0
+#define ABSL_HAVE_ATTRIBUTE_SECTION 0
 
 // provide dummy definitions
-#define S2_ABSLATTRIBUTE_SECTION(name)
-#define S2_ABSLATTRIBUTE_SECTION_VARIABLE(name)
-#define S2_ABSLINIT_ATTRIBUTE_SECTION_VARS(name)
-#define S2_ABSLDEFINE_ATTRIBUTE_SECTION_VARS(name)
-#define S2_ABSLDECLARE_ATTRIBUTE_SECTION_VARS(name)
-#define S2_ABSLATTRIBUTE_SECTION_START(name) (reinterpret_cast<void *>(0))
-#define S2_ABSLATTRIBUTE_SECTION_STOP(name) (reinterpret_cast<void *>(0))
+#define ABSL_ATTRIBUTE_SECTION(name)
+#define ABSL_ATTRIBUTE_SECTION_VARIABLE(name)
+#define ABSL_INIT_ATTRIBUTE_SECTION_VARS(name)
+#define ABSL_DEFINE_ATTRIBUTE_SECTION_VARS(name)
+#define ABSL_DECLARE_ATTRIBUTE_SECTION_VARS(name)
+#define ABSL_ATTRIBUTE_SECTION_START(name) (reinterpret_cast<void *>(0))
+#define ABSL_ATTRIBUTE_SECTION_STOP(name) (reinterpret_cast<void *>(0))
 
-#endif  // S2_ABSLATTRIBUTE_SECTION
+#endif  // ABSL_ATTRIBUTE_SECTION
 
-// S2_ABSLATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
+// ABSL_ATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
 //
 // Support for aligning the stack on 32-bit x86.
-#if S2_ABSLHAVE_ATTRIBUTE(force_align_arg_pointer) || \
+#if ABSL_HAVE_ATTRIBUTE(force_align_arg_pointer) || \
     (defined(__GNUC__) && !defined(__clang__))
 #if defined(__i386__)
-#define S2_ABSLATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC \
+#define ABSL_ATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC \
   __attribute__((force_align_arg_pointer))
-#define S2_ABSLREQUIRE_STACK_ALIGN_TRAMPOLINE (0)
+#define ABSL_REQUIRE_STACK_ALIGN_TRAMPOLINE (0)
 #elif defined(__x86_64__)
-#define S2_ABSLREQUIRE_STACK_ALIGN_TRAMPOLINE (1)
-#define S2_ABSLATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
+#define ABSL_REQUIRE_STACK_ALIGN_TRAMPOLINE (1)
+#define ABSL_ATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
 #else  // !__i386__ && !__x86_64
-#define S2_ABSLREQUIRE_STACK_ALIGN_TRAMPOLINE (0)
-#define S2_ABSLATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
+#define ABSL_REQUIRE_STACK_ALIGN_TRAMPOLINE (0)
+#define ABSL_ATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
 #endif  // __i386__
 #else
-#define S2_ABSLATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
-#define S2_ABSLREQUIRE_STACK_ALIGN_TRAMPOLINE (0)
+#define ABSL_ATTRIBUTE_STACK_ALIGN_FOR_OLD_LIBC
+#define ABSL_REQUIRE_STACK_ALIGN_TRAMPOLINE (0)
 #endif
 
-// S2_ABSLMUST_USE_RESULT
+// ABSL_MUST_USE_RESULT
 //
 // Tells the compiler to warn about unused results.
 //
@@ -466,13 +466,13 @@
 // declaration or definition. The compiler will warn if the return value from
 // such a function is unused:
 //
-//   S2_ABSLMUST_USE_RESULT Sprocket* AllocateSprocket();
+//   ABSL_MUST_USE_RESULT Sprocket* AllocateSprocket();
 //   AllocateSprocket();  // Triggers a warning.
 //
 // When annotating a class, it is equivalent to annotating every function which
 // returns an instance.
 //
-//   class S2_ABSLMUST_USE_RESULT Sprocket {};
+//   class ABSL_MUST_USE_RESULT Sprocket {};
 //   Sprocket();  // Triggers a warning.
 //
 //   Sprocket MakeSprocket();
@@ -483,29 +483,29 @@
 //   Sprocket* SprocketPointer();
 //   SprocketPointer();  // Does *not* trigger a warning.
 //
-// S2_ABSLMUST_USE_RESULT allows using cast-to-void to suppress the unused result
+// ABSL_MUST_USE_RESULT allows using cast-to-void to suppress the unused result
 // warning. For that, warn_unused_result is used only for clang but not for gcc.
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66425
 //
 // Note: past advice was to place the macro after the argument list.
-#if S2_ABSLHAVE_ATTRIBUTE(nodiscard)
-#define S2_ABSLMUST_USE_RESULT [[nodiscard]]
-#elif defined(__clang__) && S2_ABSLHAVE_ATTRIBUTE(warn_unused_result)
-#define S2_ABSLMUST_USE_RESULT __attribute__((warn_unused_result))
+#if ABSL_HAVE_ATTRIBUTE(nodiscard)
+#define ABSL_MUST_USE_RESULT [[nodiscard]]
+#elif defined(__clang__) && ABSL_HAVE_ATTRIBUTE(warn_unused_result)
+#define ABSL_MUST_USE_RESULT __attribute__((warn_unused_result))
 #else
-#define S2_ABSLMUST_USE_RESULT
+#define ABSL_MUST_USE_RESULT
 #endif
 
-// To be deleted macros. All macros are going te be renamed with S2_ABSL prefix.
+// To be deleted macros. All macros are going te be renamed with ABSL_ prefix.
 // TODO(user): delete macros
-#if S2_ABSLHAVE_ATTRIBUTE(warn_unused_result) || \
+#if ABSL_HAVE_ATTRIBUTE(warn_unused_result) || \
     (defined(__GNUC__) && !defined(__clang__))
 #define MUST_USE_RESULT __attribute__ ((warn_unused_result))
 #else
 #define MUST_USE_RESULT
 #endif
 
-// S2_ABSLATTRIBUTE_HOT, S2_ABSLATTRIBUTE_COLD
+// ABSL_ATTRIBUTE_HOT, ABSL_ATTRIBUTE_COLD
 //
 // Tells GCC that a function is hot or cold. GCC can use this information to
 // improve static analysis, i.e. a conditional branch to a cold function
@@ -514,22 +514,22 @@
 //
 // Example:
 //
-//   int foo() S2_ABSLATTRIBUTE_HOT;
-#if S2_ABSLHAVE_ATTRIBUTE(hot) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_HOT __attribute__((hot))
+//   int foo() ABSL_ATTRIBUTE_HOT;
+#if ABSL_HAVE_ATTRIBUTE(hot) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_ATTRIBUTE_HOT __attribute__((hot))
 #else
-#define S2_ABSLATTRIBUTE_HOT
+#define ABSL_ATTRIBUTE_HOT
 #endif
 
-#if S2_ABSLHAVE_ATTRIBUTE(cold) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_COLD __attribute__((cold))
+#if ABSL_HAVE_ATTRIBUTE(cold) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_ATTRIBUTE_COLD __attribute__((cold))
 #else
-#define S2_ABSLATTRIBUTE_COLD
+#define ABSL_ATTRIBUTE_COLD
 #endif
 
-// S2_ABSLXRAY_ALWAYS_INSTRUMENT, S2_ABSLXRAY_NEVER_INSTRUMENT, S2_ABSLXRAY_LOG_ARGS
+// ABSL_XRAY_ALWAYS_INSTRUMENT, ABSL_XRAY_NEVER_INSTRUMENT, ABSL_XRAY_LOG_ARGS
 //
-// We define the S2_ABSLXRAY_ALWAYS_INSTRUMENT and S2_ABSLXRAY_NEVER_INSTRUMENT
+// We define the ABSL_XRAY_ALWAYS_INSTRUMENT and ABSL_XRAY_NEVER_INSTRUMENT
 // macro used as an attribute to mark functions that must always or never be
 // instrumented by XRay. Currently, this is only supported in Clang/LLVM.
 //
@@ -557,27 +557,27 @@
 // attributes in source take precedence over these special-case lists.
 //
 // To disable the XRay attributes at build-time, users may define
-// S2_ABSLNO_XRAY_ATTRIBUTES. Do NOT define S2_ABSLNO_XRAY_ATTRIBUTES on specific
+// ABSL_NO_XRAY_ATTRIBUTES. Do NOT define ABSL_NO_XRAY_ATTRIBUTES on specific
 // packages/targets, as this may lead to conflicting definitions of functions at
 // link-time.
 //
-#if S2_ABSLHAVE_CPP_ATTRIBUTE(clang::xray_always_instrument) && \
-    !defined(S2_ABSLNO_XRAY_ATTRIBUTES)
-#define S2_ABSLXRAY_ALWAYS_INSTRUMENT [[clang::xray_always_instrument]]
-#define S2_ABSLXRAY_NEVER_INSTRUMENT [[clang::xray_never_instrument]]
-#if S2_ABSLHAVE_CPP_ATTRIBUTE(clang::xray_log_args)
-#define S2_ABSLXRAY_LOG_ARGS(N) \
+#if ABSL_HAVE_CPP_ATTRIBUTE(clang::xray_always_instrument) && \
+    !defined(ABSL_NO_XRAY_ATTRIBUTES)
+#define ABSL_XRAY_ALWAYS_INSTRUMENT [[clang::xray_always_instrument]]
+#define ABSL_XRAY_NEVER_INSTRUMENT [[clang::xray_never_instrument]]
+#if ABSL_HAVE_CPP_ATTRIBUTE(clang::xray_log_args)
+#define ABSL_XRAY_LOG_ARGS(N) \
     [[clang::xray_always_instrument, clang::xray_log_args(N)]]
 #else
-#define S2_ABSLXRAY_LOG_ARGS(N) [[clang::xray_always_instrument]]
+#define ABSL_XRAY_LOG_ARGS(N) [[clang::xray_always_instrument]]
 #endif
 #else
-#define S2_ABSLXRAY_ALWAYS_INSTRUMENT
-#define S2_ABSLXRAY_NEVER_INSTRUMENT
-#define S2_ABSLXRAY_LOG_ARGS(N)
+#define ABSL_XRAY_ALWAYS_INSTRUMENT
+#define ABSL_XRAY_NEVER_INSTRUMENT
+#define ABSL_XRAY_LOG_ARGS(N)
 #endif
 
-// S2_ABSLATTRIBUTE_REINITIALIZES
+// ABSL_ATTRIBUTE_REINITIALIZES
 //
 // Indicates that a member function reinitializes the entire object to a known
 // state, independent of the previous state of the object.
@@ -585,60 +585,60 @@
 // The clang-tidy check bugprone-use-after-move allows member functions marked
 // with this attribute to be called on objects that have been moved from;
 // without the attribute, this would result in a use-after-move warning.
-#if S2_ABSLHAVE_CPP_ATTRIBUTE(clang::reinitializes)
-#define S2_ABSLATTRIBUTE_REINITIALIZES [[clang::reinitializes]]
+#if ABSL_HAVE_CPP_ATTRIBUTE(clang::reinitializes)
+#define ABSL_ATTRIBUTE_REINITIALIZES [[clang::reinitializes]]
 #else
-#define S2_ABSLATTRIBUTE_REINITIALIZES
+#define ABSL_ATTRIBUTE_REINITIALIZES
 #endif
 
 // -----------------------------------------------------------------------------
 // Variable Attributes
 // -----------------------------------------------------------------------------
 
-// S2_ABSLATTRIBUTE_UNUSED
+// ABSL_ATTRIBUTE_UNUSED
 //
 // Prevents the compiler from complaining about variables that appear unused.
-#if S2_ABSLHAVE_ATTRIBUTE(unused) || (defined(__GNUC__) && !defined(__clang__))
-#undef S2_ABSLATTRIBUTE_UNUSED
-#define S2_ABSLATTRIBUTE_UNUSED __attribute__((__unused__))
+#if ABSL_HAVE_ATTRIBUTE(unused) || (defined(__GNUC__) && !defined(__clang__))
+#undef ABSL_ATTRIBUTE_UNUSED
+#define ABSL_ATTRIBUTE_UNUSED __attribute__((__unused__))
 #else
-#define S2_ABSLATTRIBUTE_UNUSED
+#define ABSL_ATTRIBUTE_UNUSED
 #endif
 
-// S2_ABSLATTRIBUTE_INITIAL_EXEC
+// ABSL_ATTRIBUTE_INITIAL_EXEC
 //
 // Tells the compiler to use "initial-exec" mode for a thread-local variable.
 // See http://people.redhat.com/drepper/tls.pdf for the gory details.
-#if S2_ABSLHAVE_ATTRIBUTE(tls_model) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_INITIAL_EXEC __attribute__((tls_model("initial-exec")))
+#if ABSL_HAVE_ATTRIBUTE(tls_model) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_ATTRIBUTE_INITIAL_EXEC __attribute__((tls_model("initial-exec")))
 #else
-#define S2_ABSLATTRIBUTE_INITIAL_EXEC
+#define ABSL_ATTRIBUTE_INITIAL_EXEC
 #endif
 
-// S2_ABSLATTRIBUTE_PACKED
+// ABSL_ATTRIBUTE_PACKED
 //
 // Prevents the compiler from padding a structure to natural alignment
-#if S2_ABSLHAVE_ATTRIBUTE(packed) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_PACKED __attribute__((__packed__))
+#if ABSL_HAVE_ATTRIBUTE(packed) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_ATTRIBUTE_PACKED __attribute__((__packed__))
 #else
-#define S2_ABSLATTRIBUTE_PACKED
+#define ABSL_ATTRIBUTE_PACKED
 #endif
 
-// S2_ABSLATTRIBUTE_FUNC_ALIGN
+// ABSL_ATTRIBUTE_FUNC_ALIGN
 //
 // Tells the compiler to align the function start at least to certain
 // alignment boundary
-#if S2_ABSLHAVE_ATTRIBUTE(aligned) || (defined(__GNUC__) && !defined(__clang__))
-#define S2_ABSLATTRIBUTE_FUNC_ALIGN(bytes) __attribute__((aligned(bytes)))
+#if ABSL_HAVE_ATTRIBUTE(aligned) || (defined(__GNUC__) && !defined(__clang__))
+#define ABSL_ATTRIBUTE_FUNC_ALIGN(bytes) __attribute__((aligned(bytes)))
 #else
-#define S2_ABSLATTRIBUTE_FUNC_ALIGN(bytes)
+#define ABSL_ATTRIBUTE_FUNC_ALIGN(bytes)
 #endif
 
 #endif  // SWIG
 
-// S2_ABSLCONST_INIT
+// ABSL_CONST_INIT
 //
-// A variable declaration annotated with the `S2_ABSLCONST_INIT` attribute will
+// A variable declaration annotated with the `ABSL_CONST_INIT` attribute will
 // not compile (on supported platforms) unless the variable has a constant
 // initializer. This is useful for variables with static and thread storage
 // duration, because it guarantees that they will not suffer from the so-called
@@ -650,17 +650,17 @@
 //
 //   class MyClass {
 //    public:
-//     S2_ABSLCONST_INIT static MyType my_var;
+//     ABSL_CONST_INIT static MyType my_var;
 //   };
 //
 //   MyType MyClass::my_var = MakeMyType(...);
 //
 // Note that this attribute is redundant if the variable is declared constexpr.
-#if S2_ABSLHAVE_CPP_ATTRIBUTE(clang::require_constant_initialization)
+#if ABSL_HAVE_CPP_ATTRIBUTE(clang::require_constant_initialization)
 // NOLINTNEXTLINE(whitespace/braces)
-#define S2_ABSLCONST_INIT [[clang::require_constant_initialization]]
+#define ABSL_CONST_INIT [[clang::require_constant_initialization]]
 #else
-#define S2_ABSLCONST_INIT
-#endif  // S2_ABSLHAVE_CPP_ATTRIBUTE(clang::require_constant_initialization)
+#define ABSL_CONST_INIT
+#endif  // ABSL_HAVE_CPP_ATTRIBUTE(clang::require_constant_initialization)
 
 #endif  // S2_THIRD_PARTY_ABSL_BASE_ATTRIBUTES_H_

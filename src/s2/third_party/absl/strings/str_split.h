@@ -8,7 +8,7 @@
 #include "s2/third_party/absl/strings/string_view.h"
 #include "s2/third_party/absl/strings/strip.h"
 
-namespace s2_absl {
+namespace absl {
 
 template <typename String>
 std::vector<String> StrSplit(
@@ -38,6 +38,6 @@ struct SkipWhitespace {
   }
 };
 
-}  // namespace s2_absl
+}  // namespace absl
 
 #endif  // S2_THIRD_PARTY_ABSL_STRINGS_STR_SPLIT_H_

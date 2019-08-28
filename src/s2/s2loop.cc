@@ -59,8 +59,8 @@
 #include "s2/util/coding/coder.h"
 #include "s2/util/math/matrix3x3.h"
 
-using s2_absl::make_unique;
-using s2_absl::MakeSpan;
+using absl::make_unique;
+using absl::MakeSpan;
 using std::pair;
 using std::set;
 using std::vector;

@@ -18,49 +18,49 @@
 #include "s2/third_party/absl/strings/ascii.h"
 
 inline bool ascii_isalpha(unsigned char c) {
-  return s2_absl::ascii_isalpha(c);
+  return absl::ascii_isalpha(c);
 }
 inline bool ascii_isalnum(unsigned char c) {
-  return s2_absl::ascii_isalnum(c);
+  return absl::ascii_isalnum(c);
 }
 inline bool ascii_isspace(unsigned char c) {
-  return s2_absl::ascii_isspace(c);
+  return absl::ascii_isspace(c);
 }
 inline bool ascii_ispunct(unsigned char c) {
-  return s2_absl::ascii_ispunct(c);
+  return absl::ascii_ispunct(c);
 }
 inline bool ascii_isblank(unsigned char c) {
-  return s2_absl::ascii_isblank(c);
+  return absl::ascii_isblank(c);
 }
 inline bool ascii_iscntrl(unsigned char c) {
-  return s2_absl::ascii_iscntrl(c);
+  return absl::ascii_iscntrl(c);
 }
 inline bool ascii_isxdigit(unsigned char c) {
-  return s2_absl::ascii_isxdigit(c);
+  return absl::ascii_isxdigit(c);
 }
 inline bool ascii_isdigit(unsigned char c) {
-  return s2_absl::ascii_isdigit(c);
+  return absl::ascii_isdigit(c);
 }
 inline bool ascii_isprint(unsigned char c) {
-  return s2_absl::ascii_isprint(c);
+  return absl::ascii_isprint(c);
 }
 inline bool ascii_isgraph(unsigned char c) {
-  return s2_absl::ascii_isgraph(c);
+  return absl::ascii_isgraph(c);
 }
 inline bool ascii_isupper(unsigned char c) {
-  return s2_absl::ascii_isupper(c);
+  return absl::ascii_isupper(c);
 }
 inline bool ascii_islower(unsigned char c) {
-  return s2_absl::ascii_islower(c);
+  return absl::ascii_islower(c);
 }
 inline bool ascii_isascii(unsigned char c) {
-  return s2_absl::ascii_isascii(c);
+  return absl::ascii_isascii(c);
 }
 inline char ascii_tolower(unsigned char c) {
-  return s2_absl::ascii_tolower(c);
+  return absl::ascii_tolower(c);
 }
 inline char ascii_toupper(unsigned char c) {
-  return s2_absl::ascii_toupper(c);
+  return absl::ascii_toupper(c);
 }
 
 #endif  // S2_THIRD_PARTY_ABSL_STRINGS_ASCII_CTYPE_H_

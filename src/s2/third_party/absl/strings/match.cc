@@ -16,23 +16,23 @@
 
 #include "s2/third_party/absl/strings/internal/memutil.h"
 
-namespace s2_absl {
+namespace absl {
 
-bool EqualsIgnoreCase(s2_absl::string_view piece1, s2_absl::string_view piece2) {
+bool EqualsIgnoreCase(absl::string_view piece1, absl::string_view piece2) {
   return (piece1.size() == piece2.size() &&
-          0 == s2_absl::strings_internal::memcasecmp(piece1.data(), piece2.data(),
+          0 == absl::strings_internal::memcasecmp(piece1.data(), piece2.data(),
                                                   piece1.size()));
-  // memcasecmp uses s2_absl::ascii_tolower().
+  // memcasecmp uses absl::ascii_tolower().
 }
 
-bool StartsWithIgnoreCase(s2_absl::string_view text, s2_absl::string_view prefix) {
+bool StartsWithIgnoreCase(absl::string_view text, absl::string_view prefix) {
   return (text.size() >= prefix.size()) &&
          EqualsIgnoreCase(text.substr(0, prefix.size()), prefix);
 }
 
-bool EndsWithIgnoreCase(s2_absl::string_view text, s2_absl::string_view suffix) {
+bool EndsWithIgnoreCase(absl::string_view text, absl::string_view suffix) {
   return (text.size() >= suffix.size()) &&
          EqualsIgnoreCase(text.substr(text.size() - suffix.size()), suffix);
 }
 
-}  // namespace s2_absl
+}  // namespace absl

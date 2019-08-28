@@ -80,7 +80,7 @@
 //                        const vector<S2Polygon*>& polygons) {
 //     MutableS2ShapeIndex index;
 //     for (auto polygon : polygons) {
-//       index.Add(s2_absl::make_unique<S2Polygon::Shape>(polygon));
+//       index.Add(absl::make_unique<S2Polygon::Shape>(polygon));
 //     }
 //     auto query = MakeS2ContainsPointQuery(&index);
 //     for (const auto& point : points) {
@@ -459,7 +459,7 @@ class MutableS2ShapeIndex final : public S2ShapeIndex {
     // This mutex is used as a condition variable.  It is locked by the
     // updating thread for the entire duration of the update; other threads
     // lock it in order to wait until the update is finished.
-    s2_absl::Mutex wait_mutex;
+    absl::Mutex wait_mutex;
 
     // The number of threads currently waiting on "wait_mutex_".  The
     // UpdateState can only be freed when this number reaches zero.
@@ -561,7 +561,7 @@ inline void MutableS2ShapeIndex::Iterator::Seek(S2CellId target) {
 
 inline std::unique_ptr<MutableS2ShapeIndex::IteratorBase>
 MutableS2ShapeIndex::NewIterator(InitialPosition pos) const {
-  return s2_absl::make_unique<Iterator>(this, pos);
+  return absl::make_unique<Iterator>(this, pos);
 }
 
 inline bool MutableS2ShapeIndex::is_fresh() const {

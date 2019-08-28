@@ -52,8 +52,8 @@
 #include "s2/s2text_format.h"
 #include "s2/third_party/absl/memory/memory.h"
 
-using s2_absl::WrapUnique;
-using s2_absl::make_unique;
+using absl::WrapUnique;
+using absl::make_unique;
 using s2textformat::MakePolyline;
 using std::unique_ptr;
 using std::vector;
@@ -475,14 +475,14 @@ class LazyUpdatesTest : public ::testing::Test {
 
   MutableS2ShapeIndex index_;
   // The following fields are guarded by lock_.
-  s2_absl::Mutex lock_;
+  absl::Mutex lock_;
   int num_updates_;
   int num_readers_left_;
 
   // Signalled when a new update is ready to be processed.
-  s2_absl::CondVar update_ready_;
+  absl::CondVar update_ready_;
   // Signalled when all readers have processed the latest update.
-  s2_absl::CondVar all_readers_done_;
+  absl::CondVar all_readers_done_;
 };
 
 void LazyUpdatesTest::ReaderThread() {

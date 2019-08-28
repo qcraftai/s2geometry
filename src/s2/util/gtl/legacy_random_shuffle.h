@@ -47,7 +47,7 @@ namespace gtl {
 // This function is deprecated.  See the file comment above for
 // additional details.
 template <class RandomIt, class RandomFunc>
-S2_ABSLDEPRECATED("Use std::shuffle instead; see go/nors-legacy-api")
+ABSL_DEPRECATED("Use std::shuffle instead; see go/nors-legacy-api")
 void legacy_random_shuffle(const RandomIt begin, const RandomIt end,
                            RandomFunc&& rnd) {
   auto size = std::distance(begin, end);
@@ -63,7 +63,7 @@ void legacy_random_shuffle(const RandomIt begin, const RandomIt end,
 // This function is deprecated.  See the file comment above for
 // additional details.
 template <class RandomIt>
-S2_ABSLDEPRECATED("Use std::shuffle instead; see go/nors-legacy-api")
+ABSL_DEPRECATED("Use std::shuffle instead; see go/nors-legacy-api")
 void legacy_random_shuffle(RandomIt begin, RandomIt end) {
   legacy_random_shuffle(
       begin, end,

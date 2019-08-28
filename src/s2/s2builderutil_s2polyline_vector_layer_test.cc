@@ -28,7 +28,7 @@
 #include "s2/s2builderutil_snap_functions.h"
 #include "s2/s2text_format.h"
 
-using s2_absl::make_unique;
+using absl::make_unique;
 using s2builderutil::IndexedS2PolylineVectorLayer;
 using s2builderutil::S2PolylineVectorLayer;
 using s2textformat::MakePolylineOrDie;
@@ -62,8 +62,8 @@ void TestS2PolylineVector(
   for (const auto& polyline : output) {
     output_strs.push_back(s2textformat::ToString(*polyline));
   }
-  EXPECT_EQ(s2_absl::StrJoin(expected_strs, "; "),
-            s2_absl::StrJoin(output_strs, "; "));
+  EXPECT_EQ(absl::StrJoin(expected_strs, "; "),
+            absl::StrJoin(output_strs, "; "));
 }
 
 // Convenience function that tests both directed and undirected edges.

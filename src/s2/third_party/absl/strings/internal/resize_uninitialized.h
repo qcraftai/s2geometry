@@ -24,7 +24,7 @@
 #include "s2/third_party/absl/base/port.h"
 #include "s2/third_party/absl/meta/type_traits.h"  //  for void_t
 
-namespace s2_absl {
+namespace absl {
 namespace strings_internal {
 
 // Is a subclass of true_type or false_type, depending on whether or not
@@ -39,7 +39,7 @@ struct ResizeUninitializedTraits {
 // ::string implementation.
 template <typename string_type>
 struct ResizeUninitializedTraits<
-    string_type, s2_absl::void_t<decltype(std::declval<string_type&>()
+    string_type, absl::void_t<decltype(std::declval<string_type&>()
                                            .__resize_default_init(237))> > {
   using HasMember = std::true_type;
   static void Resize(string_type* s, size_t new_size) {
@@ -67,6 +67,6 @@ inline void STLStringResizeUninitialized(string_type* s, size_t new_size) {
 }
 
 }  // namespace strings_internal
-}  // namespace s2_absl
+}  // namespace absl
 
 #endif  // S2_THIRD_PARTY_ABSL_STRINGS_INTERNAL_RESIZE_UNINITIALIZED_H_

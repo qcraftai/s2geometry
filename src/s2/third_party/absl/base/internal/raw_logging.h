@@ -36,78 +36,78 @@
 // * it uses an explicit printf-format and arguments list
 // * it will silently chop off really long message strings
 // Usage example:
-//   S2_ABSLRAW_LOG(ERROR, "Failed foo with %i: %s", status, error);
+//   ABSL_RAW_LOG(ERROR, "Failed foo with %i: %s", status, error);
 // This will print an almost standard log line like this to stderr only:
 //   E0821 211317 file.cc:123] RAW: Failed foo with 22: bad_file
 
 #if !defined(STRIP_LOG) || STRIP_LOG == 0
-#define S2_ABSLRAW_LOG(severity, ...)                                            \
+#define ABSL_RAW_LOG(severity, ...)                                            \
   do {                                                                         \
     constexpr const char* absl_raw_logging_internal_basename =                 \
-        ::s2_absl::raw_logging_internal::Basename(__FILE__,                       \
+        ::absl::raw_logging_internal::Basename(__FILE__,                       \
                                                sizeof(__FILE__) - 1);          \
-    ::s2_absl::raw_logging_internal::RawLog(S2_ABSLRAW_LOGGING_INTERNAL_##severity, \
+    ::absl::raw_logging_internal::RawLog(ABSL_RAW_LOGGING_INTERNAL_##severity, \
                                          absl_raw_logging_internal_basename,   \
                                          __LINE__, __VA_ARGS__);               \
   } while (0)
 #else
-#define S2_ABSLRAW_LOG(severity, ...)                                            \
+#define ABSL_RAW_LOG(severity, ...)                                            \
   do {                                                                         \
     constexpr const char* absl_raw_logging_internal_basename =                 \
-        ::s2_absl::raw_logging_internal::Basename(__FILE__,                       \
+        ::absl::raw_logging_internal::Basename(__FILE__,                       \
                                                sizeof(__FILE__) - 1);          \
-    if (S2_ABSLRAW_LOGGING_INTERNAL_##severity == ::s2_absl::LogSeverity::kFatal)   \
-      ::s2_absl::raw_logging_internal::RawLog(::s2_absl::LogSeverity::kFatal,        \
+    if (ABSL_RAW_LOGGING_INTERNAL_##severity == ::absl::LogSeverity::kFatal)   \
+      ::absl::raw_logging_internal::RawLog(::absl::LogSeverity::kFatal,        \
                                            absl_raw_logging_internal_basename, \
                                            __LINE__, __VA_ARGS__);             \
   } while (0)
 #endif
 
 // Similar to CHECK(condition) << message, but for low-level modules:
-// we use only S2_ABSLRAW_LOG that does not allocate memory.
+// we use only ABSL_RAW_LOG that does not allocate memory.
 // We do not want to provide args list here to encourage this usage:
-//   if (!cond)  S2_ABSLRAW_LOG(FATAL, "foo ...", hard_to_compute_args);
+//   if (!cond)  ABSL_RAW_LOG(FATAL, "foo ...", hard_to_compute_args);
 // so that the args are not computed when not needed.
-#define S2_ABSLRAW_CHECK(condition, message)                             \
+#define ABSL_RAW_CHECK(condition, message)                             \
   do {                                                                 \
-    if (S2_ABSLPREDICT_FALSE(!(condition))) {                            \
-      S2_ABSLRAW_LOG(FATAL, "Check %s failed: %s", #condition, message); \
+    if (ABSL_PREDICT_FALSE(!(condition))) {                            \
+      ABSL_RAW_LOG(FATAL, "Check %s failed: %s", #condition, message); \
     }                                                                  \
   } while (0)
 
 #ifndef NDEBUG
 
-#define RAW_DLOG(severity, ...) S2_ABSLRAW_LOG(severity, __VA_ARGS__)
-#define RAW_DCHECK(condition, message) S2_ABSLRAW_CHECK(condition, message)
+#define RAW_DLOG(severity, ...) ABSL_RAW_LOG(severity, __VA_ARGS__)
+#define RAW_DCHECK(condition, message) ABSL_RAW_CHECK(condition, message)
 
 #else  // NDEBUG
 
 #define RAW_DLOG(severity, ...) \
-  while (false) S2_ABSLRAW_LOG(severity, __VA_ARGS__)
+  while (false) ABSL_RAW_LOG(severity, __VA_ARGS__)
 #define RAW_DCHECK(condition, message) \
-  while (false) S2_ABSLRAW_CHECK(condition, message)
+  while (false) ABSL_RAW_CHECK(condition, message)
 
 #endif  // NDEBUG
 
-#define S2_ABSLRAW_LOGGING_INTERNAL_INFO ::s2_absl::LogSeverity::kInfo
-#define S2_ABSLRAW_LOGGING_INTERNAL_WARNING ::s2_absl::LogSeverity::kWarning
-#define S2_ABSLRAW_LOGGING_INTERNAL_ERROR ::s2_absl::LogSeverity::kError
-#define S2_ABSLRAW_LOGGING_INTERNAL_FATAL ::s2_absl::LogSeverity::kFatal
-#define S2_ABSLRAW_LOGGING_INTERNAL_DFATAL ::s2_absl::kLogDebugFatal
-#define S2_ABSLRAW_LOGGING_INTERNAL_LEVEL(severity) \
-  ::s2_absl::NormalizeLogSeverity(severity)
+#define ABSL_RAW_LOGGING_INTERNAL_INFO ::absl::LogSeverity::kInfo
+#define ABSL_RAW_LOGGING_INTERNAL_WARNING ::absl::LogSeverity::kWarning
+#define ABSL_RAW_LOGGING_INTERNAL_ERROR ::absl::LogSeverity::kError
+#define ABSL_RAW_LOGGING_INTERNAL_FATAL ::absl::LogSeverity::kFatal
+#define ABSL_RAW_LOGGING_INTERNAL_DFATAL ::absl::kLogDebugFatal
+#define ABSL_RAW_LOGGING_INTERNAL_LEVEL(severity) \
+  ::absl::NormalizeLogSeverity(severity)
 
-namespace s2_absl {
+namespace absl {
 namespace raw_logging_internal {
 
-// Helper function to implement S2_ABSLRAW_LOG
+// Helper function to implement ABSL_RAW_LOG
 // Logs format... at "severity" level, reporting it
 // as called from file:line.
 // This does not allocate memory or acquire locks.
-void RawLog(s2_absl::LogSeverity severity, const char* file, int line,
-            const char* format, ...) S2_ABSLPRINTF_ATTRIBUTE(4, 5);
+void RawLog(absl::LogSeverity severity, const char* file, int line,
+            const char* format, ...) ABSL_PRINTF_ATTRIBUTE(4, 5);
 void RawLog(int severity, const char* file, int line, const char* format, ...)
-    S2_ABSLPRINTF_ATTRIBUTE(4, 5);
+    ABSL_PRINTF_ATTRIBUTE(4, 5);
 
 // Writes the provided buffer directly to stderr, in a safe, low-level manner.
 //
@@ -146,19 +146,19 @@ bool RawLoggingFullySupported();
 // hooks must avoid these operations, and must not throw exceptions.
 //
 // 'severity' is the severity level of the message being written.
-// 'file' and 'line' are the file and line number where the S2_ABSLRAW_LOG macro
+// 'file' and 'line' are the file and line number where the ABSL_RAW_LOG macro
 // was located.
 // 'buffer' and 'buf_size' are pointers to the buffer and buffer size.  If the
 // hook writes a prefix, it must increment *buffer and decrement *buf_size
 // accordingly.
-using LogPrefixHook = bool (*)(s2_absl::LogSeverity severity, const char* file,
+using LogPrefixHook = bool (*)(absl::LogSeverity severity, const char* file,
                                int line, char** buffer, int* buf_size);
 
 // Function type for a raw_logging customization hook called to abort a process
 // when a FATAL message is logged.  If the provided AbortHook() returns, the
 // logging system will call abort().
 //
-// 'file' and 'line' are the file and line number where the S2_ABSLRAW_LOG macro
+// 'file' and 'line' are the file and line number where the ABSL_RAW_LOG macro
 // was located.
 // The null-terminated logged message lives in the buffer between 'buf_start'
 // and 'buf_end'.  'prefix_end' points to the first non-prefix character of the
@@ -167,28 +167,28 @@ using AbortHook = void (*)(const char* file, int line, const char* buf_start,
                            const char* prefix_end, const char* buf_end);
 
 }  // namespace raw_logging_internal
-}  // namespace s2_absl
+}  // namespace absl
 
 
 // TODO(b/62299050): These will be removed in post-launch cleanup
-#define RAW_LOG S2_ABSLRAW_LOG
-#define RAW_CHECK S2_ABSLRAW_CHECK
+#define RAW_LOG ABSL_RAW_LOG
+#define RAW_CHECK ABSL_RAW_CHECK
 
 namespace base_raw_logging {
 
 
-S2_ABSLDEPRECATED("Use s2_absl::raw_logging_internal::RawLog instead.")
-void RawLog(s2_absl::LogSeverity severity, const char* file, int line,
-            const char* format, ...) S2_ABSLPRINTF_ATTRIBUTE(4, 5);
-S2_ABSLDEPRECATED("Use s2_absl::raw_logging_internal::RawLog instead.")
+ABSL_DEPRECATED("Use absl::raw_logging_internal::RawLog instead.")
+void RawLog(absl::LogSeverity severity, const char* file, int line,
+            const char* format, ...) ABSL_PRINTF_ATTRIBUTE(4, 5);
+ABSL_DEPRECATED("Use absl::raw_logging_internal::RawLog instead.")
 void RawLog(int severity, const char* file, int line, const char* format, ...)
-    S2_ABSLPRINTF_ATTRIBUTE(4, 5);
+    ABSL_PRINTF_ATTRIBUTE(4, 5);
 
-// Since raw_logging is internal in s2_absl, the below functions and types
+// Since raw_logging is internal in absl, the below functions and types
 // won't need to be shipped yet.
 
-using LogPrefixHook = s2_absl::raw_logging_internal::LogPrefixHook;
-using AbortHook = s2_absl::raw_logging_internal::AbortHook;
+using LogPrefixHook = absl::raw_logging_internal::LogPrefixHook;
+using AbortHook = absl::raw_logging_internal::AbortHook;
 
 // Registers hooks of the above types.  Only a single hook of each type may be
 // registered.  It is an error to call these functions multiple times with

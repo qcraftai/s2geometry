@@ -20,8 +20,8 @@
 
 namespace gtl {
 
-using s2_absl::container_internal::Aligned;
-using s2_absl::container_internal::Layout;
+using absl::container_internal::Aligned;
+using absl::container_internal::Layout;
 
 }  // namespace gtl
 

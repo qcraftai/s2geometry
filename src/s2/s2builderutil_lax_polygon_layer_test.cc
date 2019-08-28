@@ -30,8 +30,8 @@
 #include "s2/s2debug.h"
 #include "s2/s2text_format.h"
 
-using s2_absl::make_unique;
-using s2_absl::string_view;
+using absl::make_unique;
+using absl::string_view;
 using s2builderutil::IndexedLaxPolygonLayer;
 using s2builderutil::LaxPolygonLayer;
 using s2textformat::MakeLaxPolygonOrDie;

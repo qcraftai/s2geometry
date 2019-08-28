@@ -50,7 +50,7 @@
 #include "s2/third_party/absl/container/internal/compressed_tuple.h"
 #include "s2/third_party/absl/memory/memory.h"
 
-namespace s2_absl {
+namespace absl {
 
 constexpr static auto kFixedArrayUseDefault = static_cast<size_t>(-1);
 
@@ -89,19 +89,19 @@ class FixedArray {
   // std::iterator_traits isn't guaranteed to be SFINAE-friendly until C++17,
   // but this seems to be mostly pedantic.
   template <typename Iterator>
-  using EnableIfForwardIterator = s2_absl::enable_if_t<std::is_convertible<
+  using EnableIfForwardIterator = absl::enable_if_t<std::is_convertible<
       typename std::iterator_traits<Iterator>::iterator_category,
       std::forward_iterator_tag>::value>;
   static constexpr bool NoexceptCopyable() {
     return std::is_nothrow_copy_constructible<StorageElement>::value &&
-           s2_absl::allocator_is_nothrow<allocator_type>::value;
+           absl::allocator_is_nothrow<allocator_type>::value;
   }
   static constexpr bool NoexceptMovable() {
     return std::is_nothrow_move_constructible<StorageElement>::value &&
-           s2_absl::allocator_is_nothrow<allocator_type>::value;
+           absl::allocator_is_nothrow<allocator_type>::value;
   }
   static constexpr bool DefaultConstructorIsNonTrivial() {
-    return !s2_absl::is_trivially_default_constructible<StorageElement>::value;
+    return !absl::is_trivially_default_constructible<StorageElement>::value;
   }
 
  public:
@@ -236,7 +236,7 @@ class FixedArray {
   // Bounds-checked access.  Returns a reference to the ith element of the
   // fiexed array, or throws std::out_of_range
   reference at(size_type i) {
-    if (S2_ABSLPREDICT_FALSE(i >= size())) {
+    if (ABSL_PREDICT_FALSE(i >= size())) {
       base_internal::ThrowStdOutOfRange("FixedArray::at failed bounds check");
     }
     return data()[i];
@@ -245,7 +245,7 @@ class FixedArray {
   // Overload of FixedArray::at() to return a const reference to the ith element
   // of the fixed array.
   const_reference at(size_type i) const {
-    if (S2_ABSLPREDICT_FALSE(i >= size())) {
+    if (ABSL_PREDICT_FALSE(i >= size())) {
       base_internal::ThrowStdOutOfRange("FixedArray::at failed bounds check");
     }
     return data()[i];
@@ -337,7 +337,7 @@ class FixedArray {
   // Relational operators. Equality operators are elementwise using
   // `operator==`, while order operators order FixedArrays lexicographically.
   friend bool operator==(const FixedArray& lhs, const FixedArray& rhs) {
-    return s2_absl::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return absl::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
   friend bool operator!=(const FixedArray& lhs, const FixedArray& rhs) {
@@ -389,17 +389,17 @@ class FixedArray {
   //     will always overflow destination buffer [-Werror]
   //
   template <typename OuterT = value_type,
-            typename InnerT = s2_absl::remove_extent_t<OuterT>,
+            typename InnerT = absl::remove_extent_t<OuterT>,
             size_t InnerN = std::extent<OuterT>::value>
   struct StorageElementWrapper {
     InnerT array[InnerN];
   };
 
   using StorageElement =
-      s2_absl::conditional_t<std::is_array<value_type>::value,
+      absl::conditional_t<std::is_array<value_type>::value,
                           StorageElementWrapper<value_type>, value_type>;
   using StorageElementBuffer =
-      s2_absl::aligned_storage_t<sizeof(StorageElement), alignof(StorageElement)>;
+      absl::aligned_storage_t<sizeof(StorageElement), alignof(StorageElement)>;
 
   static pointer AsValueType(pointer ptr) { return ptr; }
   static pointer AsValueType(StorageElementWrapper<value_type>* ptr) {
@@ -434,7 +434,7 @@ class FixedArray {
   };
 
   using InlinedStorage =
-      s2_absl::conditional_t<inline_elements == 0, EmptyInlinedStorage,
+      absl::conditional_t<inline_elements == 0, EmptyInlinedStorage,
                           NonEmptyInlinedStorage>;
 
   // Storage
@@ -516,8 +516,8 @@ void FixedArray<T, N, A>::NonEmptyInlinedStorage::AnnotateDestruct(
 #endif                   // ADDRESS_SANITIZER
   static_cast<void>(n);  // Mark used when not in asan mode
 }
-}  // namespace s2_absl
+}  // namespace absl
 
-using s2_absl::FixedArray;
+using absl::FixedArray;
 
 #endif  // S2_THIRD_PARTY_ABSL_CONTAINER_FIXED_ARRAY_H_

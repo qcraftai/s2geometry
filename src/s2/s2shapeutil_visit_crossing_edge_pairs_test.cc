@@ -32,7 +32,7 @@
 #include "s2/s2shapeutil_edge_iterator.h"
 #include "s2/s2text_format.h"
 
-using s2_absl::make_unique;
+using absl::make_unique;
 using std::unique_ptr;
 using std::vector;
 

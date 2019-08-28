@@ -91,7 +91,7 @@
 // Don't warn about unused local variables.
 //
 // extension to silence particular instances of this warning.  There's no way
-// to define S2_ABSLATTRIBUTE_UNUSED to quiet particular instances of this warning
+// to define ABSL_ATTRIBUTE_UNUSED to quiet particular instances of this warning
 // in VC++, so we disable it globally.  Currently, there aren't many false
 // positives, so perhaps we can address those in the future and re-enable these
 // warnings, which sometimes catch real bugs.
@@ -217,10 +217,10 @@
 #define GOOGLE_OBSCURE_SIGNAL SIGPWR
 #endif
 
-// S2_ABSLFUNC_PTR_TO_CHAR_PTR
+// ABSL_FUNC_PTR_TO_CHAR_PTR
 // On some platforms, a "function pointer" points to a function descriptor
 // rather than directly to the function itself.
-// Use S2_ABSLFUNC_PTR_TO_CHAR_PTR(func) to get a char-pointer to the first
+// Use ABSL_FUNC_PTR_TO_CHAR_PTR(func) to get a char-pointer to the first
 // instruction of the function func.
 // TODO(b/30407660): Move this macro into Abseil when symbolizer is released in
 // Abseil.
@@ -228,15 +228,15 @@
 #if (defined(__powerpc__) && !(_CALL_ELF > 1)) || defined(__ia64)
 // use opd section for function descriptors on these platforms, the function
 // address is the first word of the descriptor
-namespace s2_absl {
+namespace absl {
 enum { kPlatformUsesOPDSections = 1 };
-}  // namespace s2_absl
-#define S2_ABSLFUNC_PTR_TO_CHAR_PTR(func) (reinterpret_cast<char **>(func)[0])
+}  // namespace absl
+#define ABSL_FUNC_PTR_TO_CHAR_PTR(func) (reinterpret_cast<char **>(func)[0])
 #else  // not PPC or IA64
-namespace s2_absl {
+namespace absl {
 enum { kPlatformUsesOPDSections = 0 };
-}  // namespace s2_absl
-#define S2_ABSLFUNC_PTR_TO_CHAR_PTR(func) (reinterpret_cast<char *>(func))
+}  // namespace absl
+#define ABSL_FUNC_PTR_TO_CHAR_PTR(func) (reinterpret_cast<char *>(func))
 #endif  // PPC or IA64
 #endif  // __cplusplus
 
@@ -777,12 +777,12 @@ namespace internal {
 struct Unaligned16Struct {
   uint16 value;
   uint8 dummy;  // To make the size non-power-of-two.
-} S2_ABSLATTRIBUTE_PACKED;
+} ABSL_ATTRIBUTE_PACKED;
 
 struct Unaligned32Struct {
   uint32 value;
   uint8 dummy;  // To make the size non-power-of-two.
-} S2_ABSLATTRIBUTE_PACKED;
+} ABSL_ATTRIBUTE_PACKED;
 
 }  // namespace internal
 }  // namespace base

@@ -22,12 +22,12 @@
 #include <utility>
 
 #ifdef _MSC_FULL_VER
-#define S2_ABSLHAVE_WORKING_ATOMIC_POINTER 0
+#define ABSL_HAVE_WORKING_ATOMIC_POINTER 0
 #else
-#define S2_ABSLHAVE_WORKING_ATOMIC_POINTER 1
+#define ABSL_HAVE_WORKING_ATOMIC_POINTER 1
 #endif
 
-namespace s2_absl {
+namespace absl {
 namespace base_internal {
 
 template <typename T>
@@ -41,7 +41,7 @@ class AtomicHook;
 // constructed object) if no hook has been registered.
 //
 // Hooks can be pre-registered via constant initialization, for example,
-// S2_ABSLCONST_INIT static AtomicHook<void(*)()> my_hook(DefaultAction);
+// ABSL_CONST_INIT static AtomicHook<void(*)()> my_hook(DefaultAction);
 // and then changed at runtime via a call to Store().
 //
 // Reads and writes guarantee memory_order_acquire/memory_order_release
@@ -57,7 +57,7 @@ class AtomicHook<ReturnType (*)(Args...)> {
 
   // Constructs an object that by default dispatches to/returns the
   // pre-registered default_fn when no hook has been registered at runtime.
-#if S2_ABSLHAVE_WORKING_ATOMIC_POINTER
+#if ABSL_HAVE_WORKING_ATOMIC_POINTER
   explicit constexpr AtomicHook(FnPtr default_fn)
       : hook_(default_fn), default_fn_(default_fn) {}
 #else
@@ -113,7 +113,7 @@ class AtomicHook<ReturnType (*)(Args...)> {
   //
   // TODO(b/65850802): revisit this if Windows resolves the std::atomic<T*>
   // issue.
-#if S2_ABSLHAVE_WORKING_ATOMIC_POINTER
+#if ABSL_HAVE_WORKING_ATOMIC_POINTER
   // Return the stored value, or DummyFunction if no value has been stored.
   FnPtr DoLoad() const { return hook_.load(std::memory_order_acquire); }
 
@@ -129,7 +129,7 @@ class AtomicHook<ReturnType (*)(Args...)> {
   }
 
   std::atomic<FnPtr> hook_;
-#else  // !S2_ABSLHAVE_WORKING_ATOMIC_POINTER
+#else  // !ABSL_HAVE_WORKING_ATOMIC_POINTER
   // Use a sentinel value unlikely to be the address of an actual function.
   static constexpr intptr_t kUninitialized = 0;
 
@@ -160,9 +160,9 @@ class AtomicHook<ReturnType (*)(Args...)> {
   const FnPtr default_fn_;
 };
 
-#undef S2_ABSLHAVE_WORKING_ATOMIC_POINTER
+#undef ABSL_HAVE_WORKING_ATOMIC_POINTER
 
 }  // namespace base_internal
-}  // namespace s2_absl
+}  // namespace absl
 
 #endif  // S2_THIRD_PARTY_ABSL_BASE_INTERNAL_ATOMIC_HOOK_H_

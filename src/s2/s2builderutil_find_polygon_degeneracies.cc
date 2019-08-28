@@ -31,7 +31,7 @@
 #include "s2/s2pointutil.h"
 #include "s2/s2predicates.h"
 
-using s2_absl::make_unique;
+using absl::make_unique;
 using std::make_pair;
 using std::pair;
 using std::vector;

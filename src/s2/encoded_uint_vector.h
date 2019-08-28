@@ -34,7 +34,7 @@ namespace s2coding {
 // REQUIRES: "encoder" uses the default constructor, so that its buffer
 //           can be enlarged as necessary by calling Ensure(int).
 template <class T>
-void EncodeUintVector(s2_absl::Span<const T> v, Encoder* encoder);
+void EncodeUintVector(absl::Span<const T> v, Encoder* encoder);
 
 // This class represents an encoded vector of unsigned integers of type T.
 // Values are decoded only when they are accessed.  This allows for very fast
@@ -163,19 +163,19 @@ inline T GetUintWithLength(const char* ptr, int length) {
   // following page in the address space is unmapped.)
 
   if (length & sizeof(T)) {
-    if (sizeof(T) == 8) return S2_ABSLINTERNAL_UNALIGNED_LOAD64(ptr);
-    if (sizeof(T) == 4) return S2_ABSLINTERNAL_UNALIGNED_LOAD32(ptr);
-    if (sizeof(T) == 2) return S2_ABSLINTERNAL_UNALIGNED_LOAD16(ptr);
+    if (sizeof(T) == 8) return ABSL_INTERNAL_UNALIGNED_LOAD64(ptr);
+    if (sizeof(T) == 4) return ABSL_INTERNAL_UNALIGNED_LOAD32(ptr);
+    if (sizeof(T) == 2) return ABSL_INTERNAL_UNALIGNED_LOAD16(ptr);
     S2_DCHECK_EQ(sizeof(T), 1);
     return *ptr;
   }
   T x = 0;
   ptr += length;
   if (sizeof(T) > 4 && (length & 4)) {
-    x = S2_ABSLINTERNAL_UNALIGNED_LOAD32(ptr -= sizeof(uint32));
+    x = ABSL_INTERNAL_UNALIGNED_LOAD32(ptr -= sizeof(uint32));
   }
   if (sizeof(T) > 2 && (length & 2)) {
-    x = (x << 16) + S2_ABSLINTERNAL_UNALIGNED_LOAD16(ptr -= sizeof(uint16));
+    x = (x << 16) + ABSL_INTERNAL_UNALIGNED_LOAD16(ptr -= sizeof(uint16));
   }
   if (sizeof(T) > 1 && (length & 1)) {
     x = (x << 8) + static_cast<uint8>(*--ptr);
@@ -193,7 +193,7 @@ bool DecodeUintWithLength(int length, Decoder* decoder, T* result) {
 }
 
 template <class T>
-void EncodeUintVector(s2_absl::Span<const T> v, Encoder* encoder) {
+void EncodeUintVector(absl::Span<const T> v, Encoder* encoder) {
   // The encoding is as follows:
   //
   //   varint64: (v.size() * sizeof(T)) | (len - 1)

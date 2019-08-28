@@ -27,7 +27,7 @@
 #include "s2/s2pointutil.h"
 #include "s2/s2testing.h"
 
-using s2_absl::StrCat;
+using absl::StrCat;
 
 S2LatLngRect GetEdgeBound(const S2Point& a, const S2Point& b) {
   S2LatLngRectBounder bounder;

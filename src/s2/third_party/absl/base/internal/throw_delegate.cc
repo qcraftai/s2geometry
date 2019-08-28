@@ -21,16 +21,16 @@
 #include "s2/third_party/absl/base/config.h"
 #include "s2/third_party/absl/base/internal/raw_logging.h"
 
-namespace s2_absl {
+namespace absl {
 namespace base_internal {
 
 namespace {
 template <typename T>
 [[noreturn]] void Throw(const T& error) {
-#ifdef S2_ABSLHAVE_EXCEPTIONS
+#ifdef ABSL_HAVE_EXCEPTIONS
   throw error;
 #else
-  S2_ABSLRAW_LOG(FATAL, "%s", error.what());
+  ABSL_RAW_LOG(FATAL, "%s", error.what());
   std::abort();
 #endif
 }
@@ -103,4 +103,4 @@ void ThrowStdBadFunctionCall() { Throw(std::bad_function_call()); }
 void ThrowStdBadAlloc() { Throw(std::bad_alloc()); }
 
 }  // namespace base_internal
-}  // namespace s2_absl
+}  // namespace absl

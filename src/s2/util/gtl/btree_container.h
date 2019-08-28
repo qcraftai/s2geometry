@@ -152,7 +152,7 @@ class btree_container {
   key_compare key_comp() const { return tree_.key_comp(); }
   value_compare value_comp() const { return tree_.value_comp(); }
 
-  // Support s2_absl::Hash.
+  // Support absl::Hash.
   template <typename State>
   friend State AbslHashValue(State h, const btree_container &b) {
     for (const auto &v : b) {
@@ -300,13 +300,13 @@ class btree_map_container : public btree_set_container<Tree> {
   mapped_type &at(const key_type &key) {
     auto it = this->find(key);
     if (it == this->end())
-      s2_absl::base_internal::ThrowStdOutOfRange("btree_map::at");
+      absl::base_internal::ThrowStdOutOfRange("btree_map::at");
     return it->second;
   }
   const mapped_type &at(const key_type &key) const {
     auto it = this->find(key);
     if (it == this->end())
-      s2_absl::base_internal::ThrowStdOutOfRange("btree_map::at");
+      absl::base_internal::ThrowStdOutOfRange("btree_map::at");
     return it->second;
   }
 };

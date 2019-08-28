@@ -41,7 +41,7 @@
 
 #include "s2/third_party/absl/base/config.h"
 
-namespace s2_absl {
+namespace absl {
 
 namespace type_traits_internal {
 
@@ -133,7 +133,7 @@ struct is_move_assignable : type_traits_internal::is_detected<
 // This metafunction is designed to be a drop-in replacement for the C++17
 // `std::void_t` metafunction.
 //
-// NOTE: `s2_absl::void_t` does not use the standard-specified implementation so
+// NOTE: `absl::void_t` does not use the standard-specified implementation so
 // that it can remain compatible with gcc < 5.1. This can introduce slightly
 // different behavior, such as when ordering partial specializations.
 template <typename... Ts>
@@ -211,7 +211,7 @@ template <typename T>
 struct is_trivially_destructible
     : std::integral_constant<bool, __has_trivial_destructor(T) &&
                                    std::is_destructible<T>::value> {
-#ifdef S2_ABSLHAVE_STD_IS_TRIVIALLY_DESTRUCTIBLE
+#ifdef ABSL_HAVE_STD_IS_TRIVIALLY_DESTRUCTIBLE
  private:
   static constexpr bool compliant = std::is_trivially_destructible<T>::value ==
                                     is_trivially_destructible::value;
@@ -221,7 +221,7 @@ struct is_trivially_destructible
   static_assert(compliant || !std::is_trivially_destructible<T>::value,
                 "Not compliant with std::is_trivially_destructible; "
                 "Standard: true, Implementation: false");
-#endif  // S2_ABSLHAVE_STD_IS_TRIVIALLY_DESTRUCTIBLE
+#endif  // ABSL_HAVE_STD_IS_TRIVIALLY_DESTRUCTIBLE
 };
 
 // is_trivially_default_constructible()
@@ -261,7 +261,7 @@ struct is_trivially_default_constructible
     : std::integral_constant<bool, __has_trivial_constructor(T) &&
                                    std::is_default_constructible<T>::value &&
                                    is_trivially_destructible<T>::value> {
-#ifdef S2_ABSLHAVE_STD_IS_TRIVIALLY_CONSTRUCTIBLE
+#ifdef ABSL_HAVE_STD_IS_TRIVIALLY_CONSTRUCTIBLE
  private:
   static constexpr bool compliant =
       std::is_trivially_default_constructible<T>::value ==
@@ -272,7 +272,7 @@ struct is_trivially_default_constructible
   static_assert(compliant || !std::is_trivially_default_constructible<T>::value,
                 "Not compliant with std::is_trivially_default_constructible; "
                 "Standard: true, Implementation: false");
-#endif  // S2_ABSLHAVE_STD_IS_TRIVIALLY_CONSTRUCTIBLE
+#endif  // ABSL_HAVE_STD_IS_TRIVIALLY_CONSTRUCTIBLE
 };
 
 // is_trivially_copy_constructible()
@@ -293,7 +293,7 @@ struct is_trivially_copy_constructible
     : std::integral_constant<bool, __has_trivial_copy(T) &&
                                    std::is_copy_constructible<T>::value &&
                                    is_trivially_destructible<T>::value> {
-#ifdef S2_ABSLHAVE_STD_IS_TRIVIALLY_CONSTRUCTIBLE
+#ifdef ABSL_HAVE_STD_IS_TRIVIALLY_CONSTRUCTIBLE
  private:
   static constexpr bool compliant =
       std::is_trivially_copy_constructible<T>::value ==
@@ -304,7 +304,7 @@ struct is_trivially_copy_constructible
   static_assert(compliant || !std::is_trivially_copy_constructible<T>::value,
                 "Not compliant with std::is_trivially_copy_constructible; "
                 "Standard: true, Implementation: false");
-#endif  // S2_ABSLHAVE_STD_IS_TRIVIALLY_CONSTRUCTIBLE
+#endif  // ABSL_HAVE_STD_IS_TRIVIALLY_CONSTRUCTIBLE
 };
 
 // is_trivially_copy_assignable()
@@ -326,8 +326,8 @@ template <typename T>
 struct is_trivially_copy_assignable
     : std::integral_constant<
           bool, __has_trivial_assign(typename std::remove_reference<T>::type) &&
-                    s2_absl::is_copy_assignable<T>::value> {
-#ifdef S2_ABSLHAVE_STD_IS_TRIVIALLY_ASSIGNABLE
+                    absl::is_copy_assignable<T>::value> {
+#ifdef ABSL_HAVE_STD_IS_TRIVIALLY_ASSIGNABLE
  private:
   static constexpr bool compliant =
       std::is_trivially_copy_assignable<T>::value ==
@@ -338,7 +338,7 @@ struct is_trivially_copy_assignable
   static_assert(compliant || !std::is_trivially_copy_assignable<T>::value,
                 "Not compliant with std::is_trivially_copy_assignable; "
                 "Standard: true, Implementation: false");
-#endif  // S2_ABSLHAVE_STD_IS_TRIVIALLY_ASSIGNABLE
+#endif  // ABSL_HAVE_STD_IS_TRIVIALLY_ASSIGNABLE
 };
 
 // -----------------------------------------------------------------------------
@@ -423,14 +423,14 @@ struct IsHashable<Key,
 
 template <typename Key>
 struct IsHashEnabled
-    : s2_absl::conjunction<std::is_default_constructible<std::hash<Key>>,
+    : absl::conjunction<std::is_default_constructible<std::hash<Key>>,
                         std::is_copy_constructible<std::hash<Key>>,
                         std::is_destructible<std::hash<Key>>,
-                        s2_absl::is_copy_assignable<std::hash<Key>>,
+                        absl::is_copy_assignable<std::hash<Key>>,
                         IsHashable<Key>> {};
 
 }  // namespace type_traits_internal
 
-}  // namespace s2_absl
+}  // namespace absl
 
 #endif  // S2_THIRD_PARTY_ABSL_META_TYPE_TRAITS_H_

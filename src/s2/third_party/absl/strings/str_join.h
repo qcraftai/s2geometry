@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace s2_absl {
+namespace absl {
 
 template <typename Range>
 std::string StrJoin(const Range& strs, const char* delim) {
@@ -17,6 +17,6 @@ std::string StrJoin(const Range& strs, const char* delim) {
   return joined;
 }
 
-}  // namespace s2_absl
+}  // namespace absl
 
 #endif  // S2_THIRD_PARTY_ABSL_STRINGS_STR_JOIN_H_

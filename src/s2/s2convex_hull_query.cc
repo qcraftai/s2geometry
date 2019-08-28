@@ -29,7 +29,7 @@
 #include "s2/s2pointutil.h"
 #include "s2/s2predicates.h"
 
-using s2_absl::make_unique;
+using absl::make_unique;
 using std::unique_ptr;
 using std::vector;
 

@@ -24,7 +24,7 @@
 
 #include "s2/third_party/absl/base/config.h"
 
-// S2_ABSLBLOCK_TAIL_CALL_OPTIMIZATION
+// ABSL_BLOCK_TAIL_CALL_OPTIMIZATION
 //
 // Instructs the compiler to avoid optimizing tail-call recursion. Use of this
 // macro is useful when you wish to preserve the existing function order within
@@ -34,30 +34,30 @@
 //
 //   int f() {
 //     int result = g();
-//     S2_ABSLBLOCK_TAIL_CALL_OPTIMIZATION();
+//     ABSL_BLOCK_TAIL_CALL_OPTIMIZATION();
 //     return result;
 //   }
 #if defined(__pnacl__)
-#define S2_ABSLBLOCK_TAIL_CALL_OPTIMIZATION() if (volatile int x = 0) { (void)x; }
+#define ABSL_BLOCK_TAIL_CALL_OPTIMIZATION() if (volatile int x = 0) { (void)x; }
 #elif defined(__clang__)
 // Clang will not tail call given inline volatile assembly.
-#define S2_ABSLBLOCK_TAIL_CALL_OPTIMIZATION() __asm__ __volatile__("")
+#define ABSL_BLOCK_TAIL_CALL_OPTIMIZATION() __asm__ __volatile__("")
 #elif defined(__GNUC__)
 // GCC will not tail call given inline volatile assembly.
-#define S2_ABSLBLOCK_TAIL_CALL_OPTIMIZATION() __asm__ __volatile__("")
+#define ABSL_BLOCK_TAIL_CALL_OPTIMIZATION() __asm__ __volatile__("")
 #elif defined(_MSC_VER)
 #include <intrin.h>
 // The __nop() intrinsic blocks the optimisation.
-#define S2_ABSLBLOCK_TAIL_CALL_OPTIMIZATION() __nop()
+#define ABSL_BLOCK_TAIL_CALL_OPTIMIZATION() __nop()
 #else
-#define S2_ABSLBLOCK_TAIL_CALL_OPTIMIZATION() if (volatile int x = 0) { (void)x; }
+#define ABSL_BLOCK_TAIL_CALL_OPTIMIZATION() if (volatile int x = 0) { (void)x; }
 #endif
 
-// S2_ABSLCACHELINE_SIZE
+// ABSL_CACHELINE_SIZE
 //
 // Explicitly defines the size of the L1 cache for purposes of alignment.
 // Setting the cacheline size allows you to specify that certain objects be
-// aligned on a cacheline boundary with `S2_ABSLCACHELINE_ALIGNED` declarations.
+// aligned on a cacheline boundary with `ABSL_CACHELINE_ALIGNED` declarations.
 // (See below.)
 //
 // NOTE: this macro should be replaced with the following C++17 features, when
@@ -71,35 +71,35 @@
 #if defined(__GNUC__) && !defined(SWIG)
 // Cache line alignment
 #if defined(__i386__) || defined(__x86_64__)
-#define S2_ABSLCACHELINE_SIZE 64
+#define ABSL_CACHELINE_SIZE 64
 #elif defined(__powerpc64__)
-#define S2_ABSLCACHELINE_SIZE 128
+#define ABSL_CACHELINE_SIZE 128
 #elif defined(__aarch64__)
 // We would need to read special register ctr_el0 to find out L1 dcache size.
 // This value is a good estimate based on a real aarch64 machine.
-#define S2_ABSLCACHELINE_SIZE 64
+#define ABSL_CACHELINE_SIZE 64
 #elif defined(__arm__)
 // Cache line sizes for ARM: These values are not strictly correct since
 // cache line sizes depend on implementations, not architectures.  There
 // are even implementations with cache line sizes configurable at boot
 // time.
 #if defined(__ARM_ARCH_5T__)
-#define S2_ABSLCACHELINE_SIZE 32
+#define ABSL_CACHELINE_SIZE 32
 #elif defined(__ARM_ARCH_7A__)
-#define S2_ABSLCACHELINE_SIZE 64
+#define ABSL_CACHELINE_SIZE 64
 #endif
 #endif
 
-#ifndef S2_ABSLCACHELINE_SIZE
+#ifndef ABSL_CACHELINE_SIZE
 // A reasonable default guess.  Note that overestimates tend to waste more
 // space, while underestimates tend to waste more time.
-#define S2_ABSLCACHELINE_SIZE 64
+#define ABSL_CACHELINE_SIZE 64
 #endif
 
-// S2_ABSLCACHELINE_ALIGNED
+// ABSL_CACHELINE_ALIGNED
 //
 // Indicates that the declared object be cache aligned using
-// `S2_ABSLCACHELINE_SIZE` (see above). Cacheline aligning objects allows you to
+// `ABSL_CACHELINE_SIZE` (see above). Cacheline aligning objects allows you to
 // load a set of related objects in the L1 cache for performance improvements.
 // Cacheline aligning objects properly allows constructive memory sharing and
 // prevents destructive (or "false") memory sharing.
@@ -111,7 +111,7 @@
 // See http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0154r1.html
 // for more information.
 //
-// On some compilers, `S2_ABSLCACHELINE_ALIGNED` expands to an `__attribute__`
+// On some compilers, `ABSL_CACHELINE_ALIGNED` expands to an `__attribute__`
 // or `__declspec` attribute. For compilers where this is not known to work,
 // the macro expands to nothing.
 //
@@ -126,9 +126,9 @@
 // this attribute, so prefer to put it at the beginning of your declaration.
 // For example,
 //
-//   S2_ABSLCACHELINE_ALIGNED static Foo* foo = ...
+//   ABSL_CACHELINE_ALIGNED static Foo* foo = ...
 //
-//   class S2_ABSLCACHELINE_ALIGNED Bar { ...
+//   class ABSL_CACHELINE_ALIGNED Bar { ...
 //
 // Recommendations:
 //
@@ -139,23 +139,23 @@
 // 3) Prefer applying this attribute to individual variables. Avoid
 //    applying it to types. This tends to localize the effect.
 // 4) See go/cache-line-interference for further guidance.
-#define S2_ABSLCACHELINE_ALIGNED __attribute__((aligned(S2_ABSLCACHELINE_SIZE)))
+#define ABSL_CACHELINE_ALIGNED __attribute__((aligned(ABSL_CACHELINE_SIZE)))
 #elif defined(_MSC_VER)
-#define S2_ABSLCACHELINE_SIZE 64
-#define S2_ABSLCACHELINE_ALIGNED __declspec(align(S2_ABSLCACHELINE_SIZE))
+#define ABSL_CACHELINE_SIZE 64
+#define ABSL_CACHELINE_ALIGNED __declspec(align(ABSL_CACHELINE_SIZE))
 #else
-#define S2_ABSLCACHELINE_SIZE 64
-#define S2_ABSLCACHELINE_ALIGNED
+#define ABSL_CACHELINE_SIZE 64
+#define ABSL_CACHELINE_ALIGNED
 #endif
 
-// S2_ABSLPREDICT_TRUE, S2_ABSLPREDICT_FALSE
+// ABSL_PREDICT_TRUE, ABSL_PREDICT_FALSE
 //
 // Enables the compiler to prioritize compilation using static analysis for
 // likely paths within a boolean branch.
 //
 // Example:
 //
-//   if (S2_ABSLPREDICT_TRUE(expression)) {
+//   if (ABSL_PREDICT_TRUE(expression)) {
 //     return result;                        // Faster if more likely
 //   } else {
 //     return 0;
@@ -164,14 +164,14 @@
 // Compilers can use the information that a certain branch is not likely to be
 // taken (for instance, a CHECK failure) to optimize for the common case in
 // the absence of better information (ie. compiling gcc with `-fprofile-arcs`).
-#if (S2_ABSLHAVE_BUILTIN(__builtin_expect) ||         \
+#if (ABSL_HAVE_BUILTIN(__builtin_expect) ||         \
      (defined(__GNUC__) && !defined(__clang__))) && \
     !defined(SWIG)
-#define S2_ABSLPREDICT_FALSE(x) (__builtin_expect(x, 0))
-#define S2_ABSLPREDICT_TRUE(x) (__builtin_expect(!!(x), 1))
+#define ABSL_PREDICT_FALSE(x) (__builtin_expect(x, 0))
+#define ABSL_PREDICT_TRUE(x) (__builtin_expect(!!(x), 1))
 #else
-#define S2_ABSLPREDICT_FALSE(x) (x)
-#define S2_ABSLPREDICT_TRUE(x) (x)
+#define ABSL_PREDICT_FALSE(x) (x)
+#define ABSL_PREDICT_TRUE(x) (x)
 #endif
 
 #endif  // S2_THIRD_PARTY_ABSL_BASE_OPTIMIZATION_H_
