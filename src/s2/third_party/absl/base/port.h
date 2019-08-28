@@ -47,9 +47,9 @@ using std::string;
 #endif  // SWIG, __cplusplus
 
 // NOTE: These live in Abseil purely as a short-term layering workaround to
-// resolve a dependency chain between util/hash/hash, absl/strings, and //base:
-// in order for //base to depend on absl/strings, the includes of hash need
-// to be in absl, not //base.  string_view defines hashes.
+// resolve a dependency chain between util/hash/hash, s2_absl/strings, and //base:
+// in order for //base to depend on s2_absl/strings, the includes of hash need
+// to be in s2_absl, not //base.  string_view defines hashes.
 //
 // -----------------------------------------------------------------------------
 // HASH_NAMESPACE, HASH_NAMESPACE_DECLARATION_START/END

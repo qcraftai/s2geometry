@@ -22,7 +22,7 @@
 #include <string>
 #include <type_traits>
 
-namespace absl {
+namespace s2_absl {
 
 const uint128 kuint128max = MakeUint128(std::numeric_limits<uint64_t>::max(),
                                         std::numeric_limits<uint64_t>::max());
@@ -130,26 +130,26 @@ uint128::uint128(double v) : uint128(MakeUint128FromFloat(v)) {}
 uint128::uint128(long double v) : uint128(MakeUint128FromFloat(v)) {}
 
 uint128 operator/(uint128 lhs, uint128 rhs) {
-#if defined(ABSL_HAVE_INTRINSIC_INT128)
+#if defined(S2_ABSLHAVE_INTRINSIC_INT128)
   return static_cast<unsigned __int128>(lhs) /
          static_cast<unsigned __int128>(rhs);
-#else  // ABSL_HAVE_INTRINSIC_INT128
+#else  // S2_ABSLHAVE_INTRINSIC_INT128
   uint128 quotient = 0;
   uint128 remainder = 0;
   DivModImpl(lhs, rhs, &quotient, &remainder);
   return quotient;
-#endif  // ABSL_HAVE_INTRINSIC_INT128
+#endif  // S2_ABSLHAVE_INTRINSIC_INT128
 }
 uint128 operator%(uint128 lhs, uint128 rhs) {
-#if defined(ABSL_HAVE_INTRINSIC_INT128)
+#if defined(S2_ABSLHAVE_INTRINSIC_INT128)
   return static_cast<unsigned __int128>(lhs) %
          static_cast<unsigned __int128>(rhs);
-#else  // ABSL_HAVE_INTRINSIC_INT128
+#else  // S2_ABSLHAVE_INTRINSIC_INT128
   uint128 quotient = 0;
   uint128 remainder = 0;
   DivModImpl(lhs, rhs, &quotient, &remainder);
   return remainder;
-#endif  // ABSL_HAVE_INTRINSIC_INT128
+#endif  // S2_ABSLHAVE_INTRINSIC_INT128
 }
 
 namespace {
@@ -226,7 +226,7 @@ namespace {
 
 }
 
-}  // namespace absl
+}  // namespace s2_absl
 
 
 

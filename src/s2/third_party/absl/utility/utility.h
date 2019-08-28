@@ -50,14 +50,14 @@
 #include "s2/third_party/absl/base/internal/invoke.h"
 #include "s2/third_party/absl/meta/type_traits.h"
 
-namespace absl {
+namespace s2_absl {
 
 // integer_sequence
 //
 // Class template representing a compile-time integer sequence. An instantiation
 // of `integer_sequence<T, Ints...>` has a sequence of integers encoded in its
 // type through its template arguments (which is a common need when
-// working with C++11 variadic templates). `absl::integer_sequence` is designed
+// working with C++11 variadic templates). `s2_absl::integer_sequence` is designed
 // to be a drop-in replacement for C++14's `std::integer_sequence`.
 //
 // Example:
@@ -80,7 +80,7 @@ struct integer_sequence {
 // index_sequence
 //
 // A helper template for an `integer_sequence` of `size_t`,
-// `absl::index_sequence` is designed to be a drop-in replacement for C++14's
+// `s2_absl::index_sequence` is designed to be a drop-in replacement for C++14's
 // `std::index_sequence`.
 template <size_t... Ints>
 using index_sequence = integer_sequence<size_t, Ints...>;
@@ -144,49 +144,49 @@ using index_sequence_for = make_index_sequence<sizeof...(Ts)>;
 
 // Tag types
 
-#ifdef ABSL_HAVE_STD_OPTIONAL
+#ifdef S2_ABSLHAVE_STD_OPTIONAL
 
 using std::in_place_t;
 using std::in_place;
 
-#else  // ABSL_HAVE_STD_OPTIONAL
+#else  // S2_ABSLHAVE_STD_OPTIONAL
 
 // in_place_t
 //
 // Tag type used to specify in-place construction, such as with
-// `absl::optional`, designed to be a drop-in replacement for C++17's
+// `s2_absl::optional`, designed to be a drop-in replacement for C++17's
 // `std::in_place_t`.
 struct in_place_t {};
 
-ABSL_INTERNAL_INLINE_CONSTEXPR(in_place_t, in_place, {});
+S2_ABSLINTERNAL_INLINE_CONSTEXPR(in_place_t, in_place, {});
 
-#endif  // ABSL_HAVE_STD_OPTIONAL
+#endif  // S2_ABSLHAVE_STD_OPTIONAL
 
-#if defined(ABSL_HAVE_STD_ANY) || defined(ABSL_HAVE_STD_VARIANT)
+#if defined(S2_ABSLHAVE_STD_ANY) || defined(S2_ABSLHAVE_STD_VARIANT)
 using std::in_place_type_t;
 #else
 
 // in_place_type_t
 //
 // Tag type used for in-place construction when the type to construct needs to
-// be specified, such as with `absl::any`, designed to be a drop-in replacement
+// be specified, such as with `s2_absl::any`, designed to be a drop-in replacement
 // for C++17's `std::in_place_type_t`.
 template <typename T>
 struct in_place_type_t {};
-#endif  // ABSL_HAVE_STD_ANY || ABSL_HAVE_STD_VARIANT
+#endif  // S2_ABSLHAVE_STD_ANY || S2_ABSLHAVE_STD_VARIANT
 
-#ifdef ABSL_HAVE_STD_VARIANT
+#ifdef S2_ABSLHAVE_STD_VARIANT
 using std::in_place_index_t;
 #else
 
 // in_place_index_t
 //
 // Tag type used for in-place construction when the type to construct needs to
-// be specified, such as with `absl::any`, designed to be a drop-in replacement
+// be specified, such as with `s2_absl::any`, designed to be a drop-in replacement
 // for C++17's `std::in_place_index_t`.
 template <size_t I>
 struct in_place_index_t {};
-#endif  // ABSL_HAVE_STD_VARIANT
+#endif  // S2_ABSLHAVE_STD_VARIANT
 
 // Constexpr move and forward
 
@@ -195,8 +195,8 @@ struct in_place_index_t {};
 // A constexpr version of `std::move()`, designed to be a drop-in replacement
 // for C++14's `std::move()`.
 template <typename T>
-constexpr absl::remove_reference_t<T>&& move(T&& t) noexcept {
-  return static_cast<absl::remove_reference_t<T>&&>(t);
+constexpr s2_absl::remove_reference_t<T>&& move(T&& t) noexcept {
+  return static_cast<s2_absl::remove_reference_t<T>&&>(t);
 }
 
 // forward()
@@ -205,7 +205,7 @@ constexpr absl::remove_reference_t<T>&& move(T&& t) noexcept {
 // for C++14's `std::forward()`.
 template <typename T>
 constexpr T&& forward(
-    absl::remove_reference_t<T>& t) noexcept {  // NOLINT(runtime/references)
+    s2_absl::remove_reference_t<T>& t) noexcept {  // NOLINT(runtime/references)
   return static_cast<T&&>(t);
 }
 
@@ -213,12 +213,12 @@ namespace utility_internal {
 // Helper method for expanding tuple into a called method.
 template <typename Functor, typename Tuple, std::size_t... Indexes>
 auto apply_helper(Functor&& functor, Tuple&& t, index_sequence<Indexes...>)
-    -> decltype(absl::base_internal::Invoke(
-        absl::forward<Functor>(functor),
-        std::get<Indexes>(absl::forward<Tuple>(t))...)) {
-  return absl::base_internal::Invoke(
-      absl::forward<Functor>(functor),
-      std::get<Indexes>(absl::forward<Tuple>(t))...);
+    -> decltype(s2_absl::base_internal::Invoke(
+        s2_absl::forward<Functor>(functor),
+        std::get<Indexes>(s2_absl::forward<Tuple>(t))...)) {
+  return s2_absl::base_internal::Invoke(
+      s2_absl::forward<Functor>(functor),
+      std::get<Indexes>(s2_absl::forward<Tuple>(t))...);
 }
 
 }  // namespace utility_internal
@@ -229,7 +229,7 @@ auto apply_helper(Functor&& functor, Tuple&& t, index_sequence<Indexes...>)
 // Each element of the tuple corresponds to an argument of the call (in order).
 // Both the Callable argument and the tuple argument are perfect-forwarded.
 // For member-function Callables, the first tuple element acts as the `this`
-// pointer. `absl::apply` is designed to be a drop-in replacement for C++17's
+// pointer. `s2_absl::apply` is designed to be a drop-in replacement for C++17's
 // `std::apply`. Unlike C++17's `std::apply`, this is not currently `constexpr`.
 //
 // Example:
@@ -246,54 +246,54 @@ auto apply_helper(Functor&& functor, Tuple&& t, index_sequence<Indexes...>)
 //   {
 //       std::tuple<int, string> tuple1(42, "bar");
 //       // Invokes the first user function on int, string.
-//       absl::apply(&user_function1, tuple1);
+//       s2_absl::apply(&user_function1, tuple1);
 //
-//       std::tuple<std::unique_ptr<Foo>> tuple2(absl::make_unique<Foo>());
+//       std::tuple<std::unique_ptr<Foo>> tuple2(s2_absl::make_unique<Foo>());
 //       // Invokes the user function that takes ownership of the unique
 //       // pointer.
-//       absl::apply(&user_function2, std::move(tuple2));
+//       s2_absl::apply(&user_function2, std::move(tuple2));
 //
-//       auto foo = absl::make_unique<Foo>();
+//       auto foo = s2_absl::make_unique<Foo>();
 //       std::tuple<Foo*, int> tuple3(foo.get(), 42);
 //       // Invokes the method Bar on foo with one argument, 42.
-//       absl::apply(&Foo::Bar, tuple3);
+//       s2_absl::apply(&Foo::Bar, tuple3);
 //
 //       std::tuple<int, int> tuple4(8, 9);
 //       // Invokes a lambda.
-//       absl::apply(user_lambda, tuple4);
+//       s2_absl::apply(user_lambda, tuple4);
 //   }
 template <typename Functor, typename Tuple>
 auto apply(Functor&& functor, Tuple&& t)
     -> decltype(utility_internal::apply_helper(
-        absl::forward<Functor>(functor), absl::forward<Tuple>(t),
-        absl::make_index_sequence<std::tuple_size<
+        s2_absl::forward<Functor>(functor), s2_absl::forward<Tuple>(t),
+        s2_absl::make_index_sequence<std::tuple_size<
             typename std::remove_reference<Tuple>::type>::value>{})) {
   return utility_internal::apply_helper(
-      absl::forward<Functor>(functor), absl::forward<Tuple>(t),
-      absl::make_index_sequence<std::tuple_size<
+      s2_absl::forward<Functor>(functor), s2_absl::forward<Tuple>(t),
+      s2_absl::make_index_sequence<std::tuple_size<
           typename std::remove_reference<Tuple>::type>::value>{});
 }
 
 // exchange
 //
 // Replaces the value of `obj` with `new_value` and returns the old value of
-// `obj`.  `absl::exchange` is designed to be a drop-in replacement for C++14's
+// `obj`.  `s2_absl::exchange` is designed to be a drop-in replacement for C++14's
 // `std::exchange`.
 //
 // Example:
 //
 //   Foo& operator=(Foo&& other) {
-//     ptr1_ = absl::exchange(other.ptr1_, nullptr);
-//     int1_ = absl::exchange(other.int1_, -1);
+//     ptr1_ = s2_absl::exchange(other.ptr1_, nullptr);
+//     int1_ = s2_absl::exchange(other.int1_, -1);
 //     return *this;
 //   }
 template <typename T, typename U = T>
 T exchange(T& obj, U&& new_value) {
-  T old_value = absl::move(obj);
-  obj = absl::forward<U>(new_value);
+  T old_value = s2_absl::move(obj);
+  obj = s2_absl::forward<U>(new_value);
   return old_value;
 }
 
-}  // namespace absl
+}  // namespace s2_absl
 
 #endif  // S2_THIRD_PARTY_ABSL_UTILITY_UTILITY_H_

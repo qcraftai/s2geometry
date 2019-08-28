@@ -24,7 +24,7 @@
 
 #include "s2/third_party/absl/base/attributes.h"
 
-namespace absl {
+namespace s2_absl {
 
 // Four severity levels are defined.  Logging APIs should terminate the program
 // when a message is logged at severity `kFatal`; the other levels have no
@@ -36,42 +36,42 @@ enum class LogSeverity : int {
   kFatal = 3,
 };
 
-// Returns an iterable of all standard `absl::LogSeverity` values, ordered from
+// Returns an iterable of all standard `s2_absl::LogSeverity` values, ordered from
 // least to most severe.
-constexpr std::array<absl::LogSeverity, 4> LogSeverities() {
-  return {{absl::LogSeverity::kInfo, absl::LogSeverity::kWarning,
-           absl::LogSeverity::kError, absl::LogSeverity::kFatal}};
+constexpr std::array<s2_absl::LogSeverity, 4> LogSeverities() {
+  return {{s2_absl::LogSeverity::kInfo, s2_absl::LogSeverity::kWarning,
+           s2_absl::LogSeverity::kError, s2_absl::LogSeverity::kFatal}};
 }
 
-// `absl::kLogDebugFatal` equals `absl::LogSeverity::kFatal` in debug builds
-// (i.e. when `NDEBUG` is not defined) and `absl::LogSeverity::kError`
+// `s2_absl::kLogDebugFatal` equals `s2_absl::LogSeverity::kFatal` in debug builds
+// (i.e. when `NDEBUG` is not defined) and `s2_absl::LogSeverity::kError`
 // otherwise.  It is extern to prevent ODR violations when compilation units
 // with different build settings are linked together.
-ABSL_CONST_INIT extern const absl::LogSeverity kLogDebugFatal;
+S2_ABSLCONST_INIT extern const s2_absl::LogSeverity kLogDebugFatal;
 
 // Returns the all-caps string representation (e.g. "INFO") of the specified
 // severity level if it is one of the normal levels and "UNKNOWN" otherwise.
-constexpr const char* LogSeverityName(absl::LogSeverity s) {
-  return s == absl::LogSeverity::kInfo
+constexpr const char* LogSeverityName(s2_absl::LogSeverity s) {
+  return s == s2_absl::LogSeverity::kInfo
              ? "INFO"
-             : s == absl::LogSeverity::kWarning
+             : s == s2_absl::LogSeverity::kWarning
                    ? "WARNING"
-                   : s == absl::LogSeverity::kError
+                   : s == s2_absl::LogSeverity::kError
                          ? "ERROR"
-                         : s == absl::LogSeverity::kFatal ? "FATAL" : "UNKNOWN";
+                         : s == s2_absl::LogSeverity::kFatal ? "FATAL" : "UNKNOWN";
 }
 
 // Values less than `kInfo` normalize to `kInfo`; values greater than `kFatal`
 // normalize to `kError` (**NOT** `kFatal`).
-constexpr absl::LogSeverity NormalizeLogSeverity(absl::LogSeverity s) {
-  return s < absl::LogSeverity::kInfo
-             ? absl::LogSeverity::kInfo
-             : s > absl::LogSeverity::kFatal ? absl::LogSeverity::kError : s;
+constexpr s2_absl::LogSeverity NormalizeLogSeverity(s2_absl::LogSeverity s) {
+  return s < s2_absl::LogSeverity::kInfo
+             ? s2_absl::LogSeverity::kInfo
+             : s > s2_absl::LogSeverity::kFatal ? s2_absl::LogSeverity::kError : s;
 }
-constexpr absl::LogSeverity NormalizeLogSeverity(int s) {
-  return NormalizeLogSeverity(static_cast<absl::LogSeverity>(s));
+constexpr s2_absl::LogSeverity NormalizeLogSeverity(int s) {
+  return NormalizeLogSeverity(static_cast<s2_absl::LogSeverity>(s));
 }
 
-}  // namespace absl
+}  // namespace s2_absl
 
 #endif  // S2_THIRD_PARTY_ABSL_BASE_INTERNAL_LOG_SEVERITY_H_

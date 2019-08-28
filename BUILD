@@ -101,6 +101,7 @@ cc_library(
         "src/s2/util/math/mathutil.cc",
         "src/s2/util/units/length-units.cc",
     ] + glob([
+        "src/s2/third_party/absl/**/*.h",
         "src/s2/third_party/absl/**/*.cc",
     ]),
     hdrs = glob(
@@ -122,16 +123,6 @@ cc_library(
     ],
     includes = ["src"],
     deps = [
-        "@com_google_absl//absl/base",
-        "@com_google_absl//absl/container:inlined_vector",
-        "@com_google_absl//absl/container:compressed_tuple",
-        "@com_google_absl//absl/container:container_memory",
-        "@com_google_absl//absl/container:fixed_array",
-        "@com_google_absl//absl/container:layout",
-        "@com_google_absl//absl/memory",
-        "@com_google_absl//absl/strings",
-        "@com_google_absl//absl/types:span",
-        "@com_google_absl//absl/utility",
         "@glog",
     ],
 )

@@ -39,7 +39,7 @@
 
 DECLARE_bool(s2debug);
 
-using absl::StrCat;
+using s2_absl::StrCat;
 using std::max;
 using std::min;
 using std::vector;

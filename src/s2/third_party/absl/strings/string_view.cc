@@ -14,7 +14,7 @@
 
 #include "s2/third_party/absl/strings/string_view.h"
 
-#ifndef ABSL_HAVE_STD_STRING_VIEW
+#ifndef S2_ABSLHAVE_STD_STRING_VIEW
 
 #include <algorithm>
 #include <climits>
@@ -23,7 +23,7 @@
 
 #include "s2/third_party/absl/strings/internal/memutil.h"
 
-namespace absl {
+namespace s2_absl {
 
 namespace {
 void WritePadding(std::ostream& o, size_t pad) {
@@ -230,16 +230,16 @@ string_view::size_type string_view::find_last_not_of(char c,
 // MSVC to choose only one definition for the symbol it decorates. See details
 // at http://msdn.microsoft.com/en-us/library/34h23df8(v=vs.100).aspx
 #ifdef _MSC_VER
-#define ABSL_STRING_VIEW_SELECTANY __declspec(selectany)
+#define S2_ABSLSTRING_VIEW_SELECTANY __declspec(selectany)
 #else
-#define ABSL_STRING_VIEW_SELECTANY
+#define S2_ABSLSTRING_VIEW_SELECTANY
 #endif
 
-ABSL_STRING_VIEW_SELECTANY
+S2_ABSLSTRING_VIEW_SELECTANY
 constexpr string_view::size_type string_view::npos;
-ABSL_STRING_VIEW_SELECTANY
+S2_ABSLSTRING_VIEW_SELECTANY
 constexpr string_view::size_type string_view::kMaxSize;
 
-}  // namespace absl
+}  // namespace s2_absl
 
-#endif  // ABSL_HAVE_STD_STRING_VIEW
+#endif  // S2_ABSLHAVE_STD_STRING_VIEW

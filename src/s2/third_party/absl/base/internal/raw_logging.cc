@@ -26,11 +26,11 @@
 #include "s2/third_party/absl/base/log_severity.h"
 
 // We know how to perform low-level writes to stderr in POSIX and Windows.  For
-// these platforms, we define the token ABSL_LOW_LEVEL_WRITE_SUPPORTED.
+// these platforms, we define the token S2_ABSLLOW_LEVEL_WRITE_SUPPORTED.
 // Much of raw_logging.cc becomes a no-op when we can't output messages,
-// although a FATAL ABSL_RAW_LOG message will still abort the process.
+// although a FATAL S2_ABSLRAW_LOG message will still abort the process.
 
-// ABSL_HAVE_POSIX_WRITE is defined when the platform provides posix write()
+// S2_ABSLHAVE_POSIX_WRITE is defined when the platform provides posix write()
 // (as from unistd.h)
 //
 // This preprocessor token is also defined in raw_io.cc.  If you need to copy
@@ -40,42 +40,42 @@
 #include <unistd.h>
 
 
-#define ABSL_HAVE_POSIX_WRITE 1
-#define ABSL_LOW_LEVEL_WRITE_SUPPORTED 1
+#define S2_ABSLHAVE_POSIX_WRITE 1
+#define S2_ABSLLOW_LEVEL_WRITE_SUPPORTED 1
 #else
-#undef ABSL_HAVE_POSIX_WRITE
+#undef S2_ABSLHAVE_POSIX_WRITE
 #endif
 
-// ABSL_HAVE_SYSCALL_WRITE is defined when the platform provides the syscall
+// S2_ABSLHAVE_SYSCALL_WRITE is defined when the platform provides the syscall
 //   syscall(SYS_write, /*int*/ fd, /*char* */ buf, /*size_t*/ len);
 // for low level operations that want to avoid libc.
 #if (defined(__linux__) || defined(__FreeBSD__)) && !defined(__ANDROID__)
 #include <sys/syscall.h>
-#define ABSL_HAVE_SYSCALL_WRITE 1
-#define ABSL_LOW_LEVEL_WRITE_SUPPORTED 1
+#define S2_ABSLHAVE_SYSCALL_WRITE 1
+#define S2_ABSLLOW_LEVEL_WRITE_SUPPORTED 1
 #else
-#undef ABSL_HAVE_SYSCALL_WRITE
+#undef S2_ABSLHAVE_SYSCALL_WRITE
 #endif
 
 #ifdef _WIN32
 #include <io.h>
 
-#define ABSL_HAVE_RAW_IO 1
-#define ABSL_LOW_LEVEL_WRITE_SUPPORTED 1
+#define S2_ABSLHAVE_RAW_IO 1
+#define S2_ABSLLOW_LEVEL_WRITE_SUPPORTED 1
 #else
-#undef ABSL_HAVE_RAW_IO
+#undef S2_ABSLHAVE_RAW_IO
 #endif
 
 // TODO(user): We want raw-logging to work on as many platforms as possible.
-// Explicitly #error out when not ABSL_LOW_LEVEL_WRITE_SUPPORTED, except for a
+// Explicitly #error out when not S2_ABSLLOW_LEVEL_WRITE_SUPPORTED, except for a
 // whitelisted set of platforms for which we expect not to be able to raw log.
 
-ABSL_CONST_INIT static absl::base_internal::AtomicHook<
-    absl::raw_logging_internal::LogPrefixHook> log_prefix_hook;
-ABSL_CONST_INIT static absl::base_internal::AtomicHook<
-    absl::raw_logging_internal::AbortHook> abort_hook;
+S2_ABSLCONST_INIT static s2_absl::base_internal::AtomicHook<
+    s2_absl::raw_logging_internal::LogPrefixHook> log_prefix_hook;
+S2_ABSLCONST_INIT static s2_absl::base_internal::AtomicHook<
+    s2_absl::raw_logging_internal::AbortHook> abort_hook;
 
-#ifdef ABSL_LOW_LEVEL_WRITE_SUPPORTED
+#ifdef S2_ABSLLOW_LEVEL_WRITE_SUPPORTED
 static const char kTruncated[] = " ... (message truncated)\n";
 
 // sprintf the format to the buffer, adjusting *buf and *size to reflect the
@@ -83,7 +83,7 @@ static const char kTruncated[] = " ... (message truncated)\n";
 // truncation occurred, if possible leave room in the buffer for the message
 // kTruncated[].
 inline static bool VADoRawLog(char** buf, int* size, const char* format,
-                              va_list ap) ABSL_PRINTF_ATTRIBUTE(3, 0);
+                              va_list ap) S2_ABSLPRINTF_ATTRIBUTE(3, 0);
 inline static bool VADoRawLog(char** buf, int* size,
                               const char* format, va_list ap) {
   int n = vsnprintf(*buf, *size, format, ap);
@@ -100,7 +100,7 @@ inline static bool VADoRawLog(char** buf, int* size,
   *buf += n;
   return result;
 }
-#endif  // ABSL_LOW_LEVEL_WRITE_SUPPORTED
+#endif  // S2_ABSLLOW_LEVEL_WRITE_SUPPORTED
 
 static constexpr int kLogBufSize = 3000;
 
@@ -117,7 +117,7 @@ namespace {
 // *DoRawLog writes to *buf of *size and move them past the written portion.
 // It returns true iff there was no overflow or error.
 bool DoRawLog(char** buf, int* size, const char* format, ...)
-    ABSL_PRINTF_ATTRIBUTE(3, 4);
+    S2_ABSLPRINTF_ATTRIBUTE(3, 4);
 bool DoRawLog(char** buf, int* size, const char* format, ...) {
   va_list ap;
   va_start(ap, format);
@@ -129,22 +129,22 @@ bool DoRawLog(char** buf, int* size, const char* format, ...) {
   return true;
 }
 
-void RawLogVA(absl::LogSeverity severity, const char* file, int line,
-              const char* format, va_list ap) ABSL_PRINTF_ATTRIBUTE(4, 0);
-void RawLogVA(absl::LogSeverity severity, const char* file, int line,
+void RawLogVA(s2_absl::LogSeverity severity, const char* file, int line,
+              const char* format, va_list ap) S2_ABSLPRINTF_ATTRIBUTE(4, 0);
+void RawLogVA(s2_absl::LogSeverity severity, const char* file, int line,
               const char* format, va_list ap) {
   char buffer[kLogBufSize];
   char* buf = buffer;
   int size = sizeof(buffer);
-#ifdef ABSL_LOW_LEVEL_WRITE_SUPPORTED
+#ifdef S2_ABSLLOW_LEVEL_WRITE_SUPPORTED
   bool enabled = true;
 #else
   bool enabled = false;
 #endif
 
-#ifdef ABSL_MIN_LOG_LEVEL
-  if (static_cast<int>(severity) < ABSL_MIN_LOG_LEVEL &&
-      severity < absl::LogSeverity::kFatal) {
+#ifdef S2_ABSLMIN_LOG_LEVEL
+  if (static_cast<int>(severity) < S2_ABSLMIN_LOG_LEVEL &&
+      severity < s2_absl::LogSeverity::kFatal) {
     enabled = false;
   }
 #endif
@@ -159,7 +159,7 @@ void RawLogVA(absl::LogSeverity severity, const char* file, int line,
   }
   const char* const prefix_end = buf;
 
-#ifdef ABSL_LOW_LEVEL_WRITE_SUPPORTED
+#ifdef S2_ABSLLOW_LEVEL_WRITE_SUPPORTED
   if (enabled) {
     bool no_chop = VADoRawLog(&buf, &size, format, ap);
     if (no_chop) {
@@ -167,7 +167,7 @@ void RawLogVA(absl::LogSeverity severity, const char* file, int line,
     } else {
       DoRawLog(&buf, &size, "%s", kTruncated);
     }
-    absl::raw_logging_internal::SafeWriteToStderr(buffer, strlen(buffer));
+    s2_absl::raw_logging_internal::SafeWriteToStderr(buffer, strlen(buffer));
   }
 #else
   static_cast<void>(format);
@@ -176,7 +176,7 @@ void RawLogVA(absl::LogSeverity severity, const char* file, int line,
 
   // Abort the process after logging a FATAL message, even if the output itself
   // was suppressed.
-  if (severity == absl::LogSeverity::kFatal) {
+  if (severity == s2_absl::LogSeverity::kFatal) {
     abort_hook(file, line, buffer, prefix_end, buffer + kLogBufSize);
     abort();
   }
@@ -184,14 +184,14 @@ void RawLogVA(absl::LogSeverity severity, const char* file, int line,
 
 }  // namespace
 
-namespace absl {
+namespace s2_absl {
 namespace raw_logging_internal {
 void SafeWriteToStderr(const char *s, size_t len) {
-#if defined(ABSL_HAVE_SYSCALL_WRITE)
+#if defined(S2_ABSLHAVE_SYSCALL_WRITE)
   syscall(SYS_write, STDERR_FILENO, s, len);
-#elif defined(ABSL_HAVE_POSIX_WRITE)
+#elif defined(S2_ABSLHAVE_POSIX_WRITE)
   write(STDERR_FILENO, s, len);
-#elif defined(ABSL_HAVE_RAW_IO)
+#elif defined(S2_ABSLHAVE_RAW_IO)
   _write(/* stderr */ 2, s, len);
 #else
   // stderr logging unsupported on this platform
@@ -200,9 +200,9 @@ void SafeWriteToStderr(const char *s, size_t len) {
 #endif
 }
 
-void RawLog(absl::LogSeverity severity, const char* file, int line,
-            const char* format, ...) ABSL_PRINTF_ATTRIBUTE(4, 5);
-void RawLog(absl::LogSeverity severity, const char* file, int line,
+void RawLog(s2_absl::LogSeverity severity, const char* file, int line,
+            const char* format, ...) S2_ABSLPRINTF_ATTRIBUTE(4, 5);
+void RawLog(s2_absl::LogSeverity severity, const char* file, int line,
             const char* format, ...) {
   va_list ap;
   va_start(ap, format);
@@ -212,24 +212,24 @@ void RawLog(absl::LogSeverity severity, const char* file, int line,
 void RawLog(int severity, const char* file, int line, const char* format, ...) {
   va_list ap;
   va_start(ap, format);
-  RawLogVA(absl::NormalizeLogSeverity(severity), file, line, format, ap);
+  RawLogVA(s2_absl::NormalizeLogSeverity(severity), file, line, format, ap);
   va_end(ap);
 }
 
 bool RawLoggingFullySupported() {
-#ifdef ABSL_LOW_LEVEL_WRITE_SUPPORTED
+#ifdef S2_ABSLLOW_LEVEL_WRITE_SUPPORTED
   return true;
-#else  // !ABSL_LOW_LEVEL_WRITE_SUPPORTED
+#else  // !S2_ABSLLOW_LEVEL_WRITE_SUPPORTED
   return false;
-#endif  // !ABSL_LOW_LEVEL_WRITE_SUPPORTED
+#endif  // !S2_ABSLLOW_LEVEL_WRITE_SUPPORTED
 }
 
 }  // namespace raw_logging_internal
-}  // namespace absl
+}  // namespace s2_absl
 
 namespace base_raw_logging {
 
-void RawLog(absl::LogSeverity severity, const char* file, int line,
+void RawLog(s2_absl::LogSeverity severity, const char* file, int line,
             const char* format, ...) {
   va_list ap;
   va_start(ap, format);
@@ -239,7 +239,7 @@ void RawLog(absl::LogSeverity severity, const char* file, int line,
 void RawLog(int severity, const char* file, int line, const char* format, ...) {
   va_list ap;
   va_start(ap, format);
-  RawLogVA(absl::NormalizeLogSeverity(severity), file, line, format, ap);
+  RawLogVA(s2_absl::NormalizeLogSeverity(severity), file, line, format, ap);
   va_end(ap);
 }
 
