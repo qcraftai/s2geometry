@@ -37,7 +37,7 @@
 #include <vector>
 #include "s2/base/logging.h"
 #include "s2/util/gtl/btree_map.h"
-#include "absl/memory/memory.h"
+#include "s2/third_party/absl/memory/memory.h"
 #include "s2/id_set_lexicon.h"
 #include "s2/mutable_s2shape_index.h"
 #include "s2/s2builder.h"

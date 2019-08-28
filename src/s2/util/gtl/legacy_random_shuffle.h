@@ -34,7 +34,7 @@
 #include <cstdlib>
 #include <iterator>
 
-#include "absl/base/macros.h"
+#include "s2/third_party/absl/base/macros.h"
 
 namespace gtl {
 

@@ -33,11 +33,10 @@
 #include <climits>
 #include <cstdlib>
 #include <cstring>
-#include <string>
 
 #include "s2/base/integral_types.h"
-#include "absl/base/config.h"
-#include "absl/base/port.h"
+#include "s2/third_party/absl/base/config.h"
+#include "s2/third_party/absl/base/port.h"
 
 #ifdef SWIG
 %include "third_party/absl/base/port.h"
@@ -376,7 +375,7 @@ static inline uint64 bswap_64(uint64 x) {
 
 #ifdef __cplusplus
 #ifdef STL_MSVC  // not always the same as _MSC_VER
-#include "absl/base/internal/port_hash.inc"
+#include "s2/third_party/absl/base/internal/port_hash.inc"
 #else
 struct PortableHashBase {};
 #endif  // STL_MSVC
@@ -996,7 +995,5 @@ struct AlignType { typedef char result[Size]; };
 #else  // __cplusplus
 #define ALIGNED_CHAR_ARRAY ALIGNED_CHAR_ARRAY_is_not_available_without_Cplusplus
 #endif  // __cplusplus
-
-using string = std::string;
 
 #endif  // S2_BASE_PORT_H_
