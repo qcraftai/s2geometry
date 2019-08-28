@@ -24,7 +24,7 @@
 //   inline variables based on whether or not the feature is supported.
 
 ////////////////////////////////////////////////////////////////////////////////
-// Macro: ABSL_INTERNAL_INLINE_CONSTEXPR(type, name, init)
+// Macro: S2_ABSL_INTERNAL_INLINE_CONSTEXPR(type, name, init)
 //
 // Description:
 //   Expands to the equivalent of an inline constexpr instance of the specified
@@ -44,7 +44,7 @@
 // Usage:
 //
 //   // Equivalent to: `inline constexpr size_t variant_npos = -1;`
-//   ABSL_INTERNAL_INLINE_CONSTEXPR(size_t, variant_npos, -1);
+//   S2_ABSL_INTERNAL_INLINE_CONSTEXPR(size_t, variant_npos, -1);
 //
 // Differences in implementation:
 //   For a direct, language-level inline variable, decltype(name) will be the
@@ -67,24 +67,24 @@
 //   appropriate place for pointer types, reference types, function pointer
 //   types, etc..
 #if defined(__clang__)
-#define ABSL_INTERNAL_EXTERN_DECL(type, name) \
-  extern const ::absl::internal::identity_t<type> name;
+#define S2_ABSL_INTERNAL_EXTERN_DECL(type, name) \
+  extern const ::s2_absl::internal::identity_t<type> name;
 #else  // Otherwise, just define the macro to do nothing.
-#define ABSL_INTERNAL_EXTERN_DECL(type, name)
+#define S2_ABSL_INTERNAL_EXTERN_DECL(type, name)
 #endif  // defined(__clang__)
 
 // See above comment at top of file for details.
-#define ABSL_INTERNAL_INLINE_CONSTEXPR(type, name, init) \
-  ABSL_INTERNAL_EXTERN_DECL(type, name)                  \
-  inline constexpr ::absl::internal::identity_t<type> name = init
+#define S2_ABSL_INTERNAL_INLINE_CONSTEXPR(type, name, init) \
+  S2_ABSL_INTERNAL_EXTERN_DECL(type, name)                  \
+  inline constexpr ::s2_absl::internal::identity_t<type> name = init
 
 #ifdef __clang__
-#undef ABSL_INTERNAL_INLINE_CONSTEXPR
-#define ABSL_INTERNAL_INLINE_CONSTEXPR(type, name, init) \
-  ABSL_INTERNAL_EXTERN_DECL(type, name)                  \
+#undef S2_ABSL_INTERNAL_INLINE_CONSTEXPR
+#define S2_ABSL_INTERNAL_INLINE_CONSTEXPR(type, name, init) \
+  S2_ABSL_INTERNAL_EXTERN_DECL(type, name)                  \
   _Pragma("clang diagnostic push") \
   _Pragma("clang diagnostic ignored \"-Wc++98-c++11-c++14-compat\"") \
-  inline constexpr ::absl::internal::identity_t<type> name = init \
+  inline constexpr ::s2_absl::internal::identity_t<type> name = init \
   _Pragma("clang diagnostic pop")
 #endif  // __clang__
 
@@ -96,17 +96,17 @@
 //   identity_t is used here so that the const and name are in the
 //   appropriate place for pointer types, reference types, function pointer
 //   types, etc..
-#define ABSL_INTERNAL_INLINE_CONSTEXPR(var_type, name, init)                  \
+#define S2_ABSL_INTERNAL_INLINE_CONSTEXPR(var_type, name, init)                  \
   template <class /*AbslInternalDummy*/ = void>                               \
   struct AbslInternalInlineVariableHolder##name {                             \
-    static constexpr ::absl::internal::identity_t<var_type> kInstance = init; \
+    static constexpr ::s2_absl::internal::identity_t<var_type> kInstance = init; \
   };                                                                          \
                                                                               \
   template <class AbslInternalDummy>                                          \
-  constexpr ::absl::internal::identity_t<var_type>                            \
+  constexpr ::s2_absl::internal::identity_t<var_type>                            \
       AbslInternalInlineVariableHolder##name<AbslInternalDummy>::kInstance;   \
                                                                               \
-  static constexpr const ::absl::internal::identity_t<var_type>&              \
+  static constexpr const ::s2_absl::internal::identity_t<var_type>&              \
       name = /* NOLINT */                                                     \
       AbslInternalInlineVariableHolder##name<>::kInstance;                    \
   static_assert(sizeof(void (*)(decltype(name))) != 0,                        \

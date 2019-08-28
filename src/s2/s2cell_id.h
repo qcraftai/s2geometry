@@ -388,7 +388,7 @@ class S2CellId {
   //
   // The method name includes "Debug" in order to avoid possible confusion
   // with FromToken() above.
-  static S2CellId FromDebugString(absl::string_view str);
+  static S2CellId FromDebugString(s2_absl::string_view str);
 
   // Return the four cells that are adjacent across the cell's four edges.
   // Neighbors are returned in the order defined by S2Cell::GetEdge.  All
@@ -464,8 +464,8 @@ class S2CellId {
   static S2CellId FromFaceIJSame(int face, int i, int j, bool same_face);
 
   uint64 id_;
-} ABSL_ATTRIBUTE_PACKED;  // Necessary so that structures containing S2CellId's
-                          // can be ABSL_ATTRIBUTE_PACKED.
+} S2_ABSL_ATTRIBUTE_PACKED;  // Necessary so that structures containing S2CellId's
+                          // can be S2_ABSL_ATTRIBUTE_PACKED.
 
 inline bool operator==(S2CellId x, S2CellId y) {
   return x.id() == y.id();

@@ -19,7 +19,7 @@
 //
 // This header file defines the set of language macros used within Abseil code.
 // For the set of macros used to determine supported compilers and platforms,
-// see absl/base/config.h instead.
+// see s2_absl/base/config.h instead.
 //
 // This code is compiled directly on many platforms, including client
 // platforms like Windows, Mac, and embedded systems.  Before making
@@ -33,24 +33,24 @@
 
 #include "s2/third_party/absl/base/port.h"
 
-// ABSL_ARRAYSIZE()
+// S2_ABSL_ARRAYSIZE()
 //
 // Returns the number of elements in an array as a compile-time constant, which
 // can be used in defining new arrays. If you use this macro on a pointer by
 // mistake, you will get a compile-time error.
-#define ABSL_ARRAYSIZE(array) \
-  (sizeof(::absl::macros_internal::ArraySizeHelper(array)))
+#define S2_ABSL_ARRAYSIZE(array) \
+  (sizeof(::s2_absl::macros_internal::ArraySizeHelper(array)))
 
-namespace absl {
+namespace s2_absl {
 namespace macros_internal {
-// Note: this internal template function declaration is used by ABSL_ARRAYSIZE.
+// Note: this internal template function declaration is used by S2_ABSL_ARRAYSIZE.
 // The function doesn't need a definition, as we only use its type.
 template <typename T, size_t N>
 auto ArraySizeHelper(const T (&array)[N]) -> char (&)[N];
 }  // namespace macros_internal
-}  // namespace absl
+}  // namespace s2_absl
 
-// TODO(b/62370839): Replace arraysize() with ABSL_ARRAYSIZE().
+// TODO(b/62370839): Replace arraysize() with S2_ABSL_ARRAYSIZE().
 template <typename T, size_t N>
 auto ArraySizeHelper(const T (&array)[N]) -> char (&)[N];
 
@@ -62,7 +62,7 @@ auto ArraySizeHelper(const T (&array)[N]) -> char (&)[N];
 // static storage duration, and that the constructor should do nothing to its
 // state. Use of this macro indicates to the reader that it is legal to
 // declare a static instance of the class, provided the constructor is given
-// the absl::base_internal::kLinkerInitialized argument.
+// the s2_absl::base_internal::kLinkerInitialized argument.
 //
 // Normally, it is unsafe to declare a static variable that has a constructor or
 // a destructor because invocation order is undefined. However, if the type can
@@ -72,29 +72,29 @@ auto ArraySizeHelper(const T (&array)[N]) -> char (&)[N];
 //
 // Example:
 //       // Declaration
-//       explicit MyClass(absl::base_internal:LinkerInitialized x) {}
+//       explicit MyClass(s2_absl::base_internal:LinkerInitialized x) {}
 //
 //       // Invocation
-//       static MyClass my_global(absl::base_internal::kLinkerInitialized);
-namespace absl {
+//       static MyClass my_global(s2_absl::base_internal::kLinkerInitialized);
+namespace s2_absl {
 namespace base_internal {
 enum LinkerInitialized {
   kLinkerInitialized = 0,
   LINKER_INITIALIZED = 0,
 };
 }  // namespace base_internal
-}  // namespace absl
+}  // namespace s2_absl
 
 namespace base {
-using absl::base_internal::LinkerInitialized;
-using absl::base_internal::LINKER_INITIALIZED;
+using s2_absl::base_internal::LinkerInitialized;
+using s2_absl::base_internal::LINKER_INITIALIZED;
 }  // namespace base
 
-// ABSL_FALLTHROUGH_INTENDED
+// S2_ABSL_FALLTHROUGH_INTENDED
 //
 // Annotates implicit fall-through between switch labels, allowing a case to
 // indicate intentional fallthrough and turn off warnings about any lack of a
-// `break` statement. The ABSL_FALLTHROUGH_INTENDED macro should be followed by
+// `break` statement. The S2_ABSL_FALLTHROUGH_INTENDED macro should be followed by
 // a semicolon and can be used in most places where `break` can, provided that
 // no statements exist between it and the next switch label.
 //
@@ -105,7 +105,7 @@ using absl::base_internal::LINKER_INITIALIZED;
 //    case 41:
 //      if (truth_is_out_there) {
 //        ++x;
-//        ABSL_FALLTHROUGH_INTENDED;  // Use instead of/along with annotations
+//        S2_ABSL_FALLTHROUGH_INTENDED;  // Use instead of/along with annotations
 //                                    // in comments
 //      } else {
 //        return x;
@@ -113,18 +113,18 @@ using absl::base_internal::LINKER_INITIALIZED;
 //    case 42:
 //      ...
 //
-// Notes: when compiled with clang in C++11 mode, the ABSL_FALLTHROUGH_INTENDED
+// Notes: when compiled with clang in C++11 mode, the S2_ABSL_FALLTHROUGH_INTENDED
 // macro is expanded to the [[clang::fallthrough]] attribute, which is analysed
 // when  performing switch labels fall-through diagnostic
 // (`-Wimplicit-fallthrough`). See clang documentation on language extensions
 // for details:
 // http://clang.llvm.org/docs/AttributeReference.html#fallthrough-clang-fallthrough
 //
-// When used with unsupported compilers, the ABSL_FALLTHROUGH_INTENDED macro
+// When used with unsupported compilers, the S2_ABSL_FALLTHROUGH_INTENDED macro
 // has no effect on diagnostics. In any case this macro has no effect on runtime
 // behavior and performance of code.
 // TODO(b/62370839): Replace FALLTHROUGH_INTENDED with
-// ABSL_FALLTHROUGH_INTENDED.
+// S2_ABSL_FALLTHROUGH_INTENDED.
 #if defined(__clang__) && defined(__has_warning)
 #if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
 #define FALLTHROUGH_INTENDED [[clang::fallthrough]]
@@ -136,26 +136,26 @@ using absl::base_internal::LINKER_INITIALIZED;
 #ifndef FALLTHROUGH_INTENDED
 #define FALLTHROUGH_INTENDED do { } while (0)
 #endif
-#ifdef ABSL_FALLTHROUGH_INTENDED
-#error "ABSL_FALLTHROUGH_INTENDED should not be defined."
+#ifdef S2_ABSL_FALLTHROUGH_INTENDED
+#error "S2_ABSL_FALLTHROUGH_INTENDED should not be defined."
 #endif
 
 // TODO(user): Use c++17 standard [[fallthrough]] macro, when supported.
 #if defined(__clang__) && defined(__has_warning)
 #if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
-#define ABSL_FALLTHROUGH_INTENDED [[clang::fallthrough]]
+#define S2_ABSL_FALLTHROUGH_INTENDED [[clang::fallthrough]]
 #endif
 #elif defined(__GNUC__) && __GNUC__ >= 7
-#define ABSL_FALLTHROUGH_INTENDED [[gnu::fallthrough]]
+#define S2_ABSL_FALLTHROUGH_INTENDED [[gnu::fallthrough]]
 #endif
 
-#ifndef ABSL_FALLTHROUGH_INTENDED
-#define ABSL_FALLTHROUGH_INTENDED \
+#ifndef S2_ABSL_FALLTHROUGH_INTENDED
+#define S2_ABSL_FALLTHROUGH_INTENDED \
   do {                            \
   } while (0)
 #endif
 
-// ABSL_DEPRECATED()
+// S2_ABSL_DEPRECATED()
 //
 // Marks a deprecated class, struct, enum, function, method and variable
 // declarations. The macro argument is used as a custom diagnostic message (e.g.
@@ -163,21 +163,21 @@ using absl::base_internal::LINKER_INITIALIZED;
 //
 // Example:
 //
-//   class ABSL_DEPRECATED("Use Bar instead") Foo {...};
-//   ABSL_DEPRECATED("Use Baz instead") void Bar() {...}
+//   class S2_ABSL_DEPRECATED("Use Bar instead") Foo {...};
+//   S2_ABSL_DEPRECATED("Use Baz instead") void Bar() {...}
 //
 // Every usage of a deprecated entity will trigger a warning when compiled with
 // clang's `-Wdeprecated-declarations` option. This option is turned off by
 // default, but the warnings will be reported by clang-tidy.
 #if defined(__clang__) && __cplusplus >= 201103L
-#define ABSL_DEPRECATED(message) __attribute__((deprecated(message)))
+#define S2_ABSL_DEPRECATED(message) __attribute__((deprecated(message)))
 #endif
 
-#ifndef ABSL_DEPRECATED
-#define ABSL_DEPRECATED(message)
+#ifndef S2_ABSL_DEPRECATED
+#define S2_ABSL_DEPRECATED(message)
 #endif
 
-// ABSL_BAD_CALL_IF()
+// S2_ABSL_BAD_CALL_IF()
 //
 // Used on a function overload to trap bad calls: any call that matches the
 // overload will cause a compile-time error. This macro uses a clang-specific
@@ -185,52 +185,52 @@ using absl::base_internal::LINKER_INITIALIZED;
 // http://clang.llvm.org/docs/AttributeReference.html#enable-if
 //
 // Overloads which use this macro should be bracketed by
-// `#ifdef ABSL_BAD_CALL_IF`.
+// `#ifdef S2_ABSL_BAD_CALL_IF`.
 //
 // Example:
 //
 //   int isdigit(int c);
-//   #ifdef ABSL_BAD_CALL_IF
+//   #ifdef S2_ABSL_BAD_CALL_IF
 //   int isdigit(int c)
-//     ABSL_BAD_CALL_IF(c <= -1 || c > 255,
+//     S2_ABSL_BAD_CALL_IF(c <= -1 || c > 255,
 //                       "'c' must have the value of an unsigned char or EOF");
-//   #endif // ABSL_BAD_CALL_IF
+//   #endif // S2_ABSL_BAD_CALL_IF
 
 #if defined(__clang__)
 # if __has_attribute(enable_if)
-#  define ABSL_BAD_CALL_IF(expr, msg) \
+#  define S2_ABSL_BAD_CALL_IF(expr, msg) \
     __attribute__((enable_if(expr, "Bad call trap"), unavailable(msg)))
 # endif
 #endif
 
-// ABSL_ASSERT()
+// S2_ABSL_ASSERT()
 //
 // In C++11, `assert` can't be used portably within constexpr functions.
-// ABSL_ASSERT functions as a runtime assert but works in C++11 constexpr
+// S2_ABSL_ASSERT functions as a runtime assert but works in C++11 constexpr
 // functions.  Example:
 //
 // constexpr double Divide(double a, double b) {
-//   return ABSL_ASSERT(b != 0), a / b;
+//   return S2_ABSL_ASSERT(b != 0), a / b;
 // }
 //
 // This macro is inspired by
 // https://akrzemi1.wordpress.com/2017/05/18/asserts-in-constexpr-functions/
 #if defined(NDEBUG)
-#define ABSL_ASSERT(expr) (false ? (void)(expr) : (void)0)
+#define S2_ABSL_ASSERT(expr) (false ? (void)(expr) : (void)0)
 #else
-#define ABSL_ASSERT(expr)              \
-  (ABSL_PREDICT_TRUE((expr)) ? (void)0 \
+#define S2_ABSL_ASSERT(expr)              \
+  (S2_ABSL_PREDICT_TRUE((expr)) ? (void)0 \
                              : [] { assert(false && #expr); }())  // NOLINT
 #endif
 
-#ifdef ABSL_HAVE_EXCEPTIONS
-#define ABSL_INTERNAL_TRY try
-#define ABSL_INTERNAL_CATCH_ANY catch (...)
-#define ABSL_INTERNAL_RETHROW do { throw; } while (false)
-#else  // ABSL_HAVE_EXCEPTIONS
-#define ABSL_INTERNAL_TRY if (true)
-#define ABSL_INTERNAL_CATCH_ANY else if (false)
-#define ABSL_INTERNAL_RETHROW do {} while (false)
-#endif  // ABSL_HAVE_EXCEPTIONS
+#ifdef S2_ABSL_HAVE_EXCEPTIONS
+#define S2_ABSL_INTERNAL_TRY try
+#define S2_ABSL_INTERNAL_CATCH_ANY catch (...)
+#define S2_ABSL_INTERNAL_RETHROW do { throw; } while (false)
+#else  // S2_ABSL_HAVE_EXCEPTIONS
+#define S2_ABSL_INTERNAL_TRY if (true)
+#define S2_ABSL_INTERNAL_CATCH_ANY else if (false)
+#define S2_ABSL_INTERNAL_RETHROW do {} while (false)
+#endif  // S2_ABSL_HAVE_EXCEPTIONS
 
 #endif  // S2_THIRD_PARTY_ABSL_BASE_MACROS_H_
