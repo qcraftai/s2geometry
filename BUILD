@@ -116,6 +116,7 @@ cc_library(
         "-Wno-mismatched-tags",
         "-Wno-unused-const-variable",
         "-Wno-unused-function",
+        "-Wno-error=thread-safety-analysis",
     ],
     linkopts = [
         "-lcrypto",
